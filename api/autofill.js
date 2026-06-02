@@ -11,7 +11,7 @@ Rules:
 - price: number only, no dollar sign
 - size: just the size letter/number
 - category: one of exactly: shirts, hoodies, shorts, belts, kakobuy, other
-- description: max 2 sentences. Mention material quality (thick cotton, heavy fleece, solid stitching etc). No smoke-free, no pet-free, never say "rep" or "replica". If "rep" or "1:1" in input start with "1:1 quality." End with "Local pickup/meetup Victoria only."
+- description: max 2 sentences. ALWAYS start with "1:1 quality." then mention material quality (thick cotton, heavy fleece, solid stitching etc). No smoke-free, no pet-free, never say "rep" or "replica". End with "Local pickup/meetup Victoria only."
 
 Example output:
 {"brand":"Fear of God Essentials","name":"Essentials Sweat Shorts","price":50,"size":"M","category":"shorts","description":"1:1 quality. Thick cotton, clean condition. Local pickup/meetup Victoria only."}`;

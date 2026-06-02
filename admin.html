@@ -9,9 +9,9 @@
   body { background: #111110; color: #e8e6e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
   .login-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
   .login-box { background: #1a1a18; border: 1px solid #2c2c2a; border-radius: 12px; padding: 2rem; width: 100%; max-width: 360px; }
-  .login-box h2 { font-size: 18px; font-weight: 500; margin-bottom: 1.5rem; color: #e8e6e0; }
+  .login-box h2 { font-size: 18px; font-weight: 500; margin-bottom: 1.5rem; }
   .admin-wrap { max-width: 600px; margin: 0 auto; padding: 2rem 1.5rem; }
-  h1 { font-size: 20px; font-weight: 600; margin-bottom: 2rem; color: #e8e6e0; }
+  h1 { font-size: 20px; font-weight: 600; margin-bottom: 2rem; }
   label { display: block; font-size: 12px; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; margin-top: 1rem; }
   input, select, textarea { width: 100%; background: #1a1a18; border: 1px solid #2c2c2a; border-radius: 8px; padding: 10px 12px; color: #e8e6e0; font-size: 14px; font-family: inherit; outline: none; transition: border 0.2s; }
   input:focus, select:focus, textarea:focus { border-color: #5f5e5a; }
@@ -28,20 +28,19 @@
   .msg.success { background: #0f6e56; color: #9fe1cb; }
   .msg.error { background: #a32d2d; color: #f7c1c1; }
   .upload-area { border: 2px dashed #2c2c2a; border-radius: 8px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; position: relative; }
-  .upload-area:hover, .upload-area.dragover { border-color: #5f5e5a; background: #1a1a18; }
+  .upload-area:hover { border-color: #5f5e5a; background: #1a1a18; }
   .upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
   .upload-area p { color: #888780; font-size: 13px; pointer-events: none; }
-  .upload-area .upload-icon { font-size: 28px; margin-bottom: 8px; }
-  .preview-img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin-top: 0.5rem; display: none; }
+  .preview-img { width: 100%; max-height: 220px; object-fit: cover; border-radius: 8px; margin-top: 0.75rem; display: none; }
   .upload-progress { height: 4px; background: #2c2c2a; border-radius: 2px; margin-top: 8px; display: none; }
   .upload-progress-bar { height: 100%; background: #9fe1cb; border-radius: 2px; width: 0%; transition: width 0.3s; }
-  .items-list { margin-top: 2rem; }
-  .items-list h2 { font-size: 16px; font-weight: 500; margin-bottom: 1rem; color: #e8e6e0; border-top: 1px solid #2c2c2a; padding-top: 1.5rem; }
+  .upload-status { font-size: 12px; color: #9fe1cb; margin-top: 6px; display: none; }
+  .items-list h2 { font-size: 16px; font-weight: 500; margin-bottom: 1rem; color: #e8e6e0; border-top: 1px solid #2c2c2a; padding-top: 1.5rem; margin-top: 2rem; }
   .item-row { display: flex; align-items: center; gap: 12px; padding: 12px; background: #1a1a18; border-radius: 8px; margin-bottom: 8px; }
   .item-thumb { width: 48px; height: 48px; border-radius: 6px; object-fit: cover; background: #2c2c2a; flex-shrink: 0; }
-  .item-thumb-placeholder { width: 48px; height: 48px; border-radius: 6px; background: #2c2c2a; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-  .item-row-info { flex: 1; font-size: 13px; }
-  .item-row-name { color: #e8e6e0; font-weight: 500; }
+  .item-thumb-placeholder { width: 48px; height: 48px; border-radius: 6px; background: #2c2c2a; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .item-row-info { flex: 1; font-size: 13px; min-width: 0; }
+  .item-row-name { color: #e8e6e0; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .item-row-meta { color: #888780; font-size: 12px; margin-top: 2px; }
   .item-actions { display: flex; gap: 8px; flex-shrink: 0; }
   .toggle-btn { background: #2c2c2a; border: 1px solid #444441; color: #e8e6e0; border-radius: 6px; padding: 5px 10px; font-size: 12px; cursor: pointer; }
@@ -50,11 +49,9 @@
   .delete-btn:hover { background: #4a2020; }
   .logout { font-size: 12px; color: #5f5e5a; cursor: pointer; }
   .logout:hover { color: #888780; }
-  .upload-status { font-size: 12px; color: #9fe1cb; margin-top: 6px; display: none; }
 </style>
 </head>
 <body>
-
 <div class="login-wrap" id="login-screen">
   <div class="login-box">
     <h2>Vic Local Admin</h2>
@@ -74,17 +71,15 @@
   <label>Photo</label>
   <div class="upload-area" id="upload-area">
     <input type="file" id="photo-input" accept="image/*" onchange="handlePhotoSelect(event)">
-    <div class="upload-icon">📷</div>
+    <div style="font-size:28px;margin-bottom:8px;">📷</div>
     <p id="upload-text">Tap to upload photo or drag and drop</p>
   </div>
-  <div class="upload-progress" id="upload-progress">
-    <div class="upload-progress-bar" id="upload-progress-bar"></div>
-  </div>
-  <div class="upload-status" id="upload-status">✓ Photo uploaded</div>
+  <div class="upload-progress" id="upload-progress"><div class="upload-progress-bar" id="upload-bar"></div></div>
+  <div class="upload-status" id="upload-status">✓ Photo uploaded successfully</div>
   <img class="preview-img" id="preview-img" alt="Preview">
 
   <label>Brand</label>
-  <input type="text" id="brand" placeholder="Carhartt, Harley Davidson, Fear of God...">
+  <input type="text" id="brand" placeholder="Carhartt, Fear of God, Harley Davidson...">
 
   <label>Item Name</label>
   <input type="text" id="name" placeholder="Essentials Sweat Shorts">
@@ -132,15 +127,14 @@
 </div>
 
 <script>
-  const SUPABASE_URL = 'https://uyuyerbyjelelkshmmpn.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_VXPp5W2jIWZQtBCtIKa7Aw_lK4hZ718';
-  const ADMIN_PASSWORD = 'viclocal2024';
-  const BUCKET = 'item-photos';
-  let uploadedImageUrl = null;
+  var SUPABASE_URL = 'https://uyuyerbyjelelkshmmpn.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dXllcmJ5amVsZWxrc2htbXBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzNTI2NTgsImV4cCI6MjA5NTkyODY1OH0.zM93TUtb3ZUF9PP5R_4ZA9ke0FcYXJaim4W1t7OfnYE';
+  var ADMIN_PASSWORD = 'viclocal2024';
+  var BUCKET = 'item-photos';
+  var uploadedImageUrl = null;
 
   function login() {
-    const pw = document.getElementById('password-input').value;
-    if (pw === ADMIN_PASSWORD) {
+    if (document.getElementById('password-input').value === ADMIN_PASSWORD) {
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('admin-screen').style.display = 'block';
       loadCurrentItems();
@@ -157,57 +151,46 @@
   }
 
   async function handlePhotoSelect(event) {
-    const file = event.target.files[0];
+    var file = event.target.files[0];
     if (!file) return;
-
-    const preview = document.getElementById('preview-img');
+    var preview = document.getElementById('preview-img');
     preview.src = URL.createObjectURL(file);
     preview.style.display = 'block';
     document.getElementById('upload-text').textContent = file.name;
-
-    const progress = document.getElementById('upload-progress');
-    const bar = document.getElementById('upload-progress-bar');
-    const status = document.getElementById('upload-status');
-    progress.style.display = 'block';
-    bar.style.width = '30%';
-
-    const ext = file.name.split('.').pop();
-    const fileName = `${Date.now()}.${ext}`;
-
+    document.getElementById('upload-progress').style.display = 'block';
+    document.getElementById('upload-bar').style.width = '40%';
+    var ext = file.name.split('.').pop();
+    var fileName = Date.now() + '.' + ext;
     try {
-      bar.style.width = '60%';
-      const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${fileName}`, {
+      var res = await fetch(SUPABASE_URL + '/storage/v1/object/' + BUCKET + '/' + fileName, {
         method: 'POST',
         headers: {
           'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
           'Content-Type': file.type,
           'x-upsert': 'true'
         },
         body: file
       });
-
-      bar.style.width = '100%';
-
+      document.getElementById('upload-bar').style.width = '100%';
       if (res.ok) {
-        uploadedImageUrl = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${fileName}`;
-        status.style.display = 'block';
+        uploadedImageUrl = SUPABASE_URL + '/storage/v1/object/public/' + BUCKET + '/' + fileName;
+        document.getElementById('upload-status').style.display = 'block';
       } else {
-        const err = await res.json();
-        document.getElementById('msg').innerHTML = `<div class="msg error">Photo upload failed: ${err.message || 'Check Supabase storage bucket exists'}</div>`;
+        var err = await res.json();
+        document.getElementById('msg').innerHTML = '<div class="msg error">Photo upload failed: ' + (err.message || 'Unknown error') + '</div>';
       }
     } catch(e) {
-      document.getElementById('msg').innerHTML = '<div class="msg error">Photo upload failed. Check your connection.</div>';
+      document.getElementById('msg').innerHTML = '<div class="msg error">Photo upload failed. Check connection.</div>';
     }
   }
 
   async function addItem() {
-    const btn = document.getElementById('submit-btn');
-    const msg = document.getElementById('msg');
+    var btn = document.getElementById('submit-btn');
+    var msg = document.getElementById('msg');
     btn.disabled = true;
     btn.textContent = 'Adding...';
-
-    const item = {
+    var item = {
       brand: document.getElementById('brand').value.trim(),
       name: document.getElementById('name').value.trim(),
       price: parseInt(document.getElementById('price').value),
@@ -218,26 +201,21 @@
       is_new: document.getElementById('is_new').checked,
       sold: document.getElementById('sold').checked
     };
-
     if (!item.name || !item.brand || !item.price) {
       msg.innerHTML = '<div class="msg error">Please fill in brand, name and price</div>';
-      btn.disabled = false;
-      btn.textContent = 'Add Item to Site';
-      return;
+      btn.disabled = false; btn.textContent = 'Add Item to Site'; return;
     }
-
     try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/items`, {
+      var res = await fetch(SUPABASE_URL + '/rest/v1/items', {
         method: 'POST',
         headers: {
           'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
           'Content-Type': 'application/json',
           'Prefer': 'return=minimal'
         },
         body: JSON.stringify(item)
       });
-
       if (res.ok) {
         msg.innerHTML = '<div class="msg success">Item added! Live on the site now. 🔥</div>';
         document.getElementById('brand').value = '';
@@ -248,7 +226,7 @@
         document.getElementById('preview-img').style.display = 'none';
         document.getElementById('upload-text').textContent = 'Tap to upload photo or drag and drop';
         document.getElementById('upload-progress').style.display = 'none';
-        document.getElementById('upload-progress-bar').style.width = '0%';
+        document.getElementById('upload-bar').style.width = '0%';
         document.getElementById('upload-status').style.display = 'none';
         document.getElementById('photo-input').value = '';
         document.getElementById('is_new').checked = true;
@@ -256,49 +234,41 @@
         uploadedImageUrl = null;
         loadCurrentItems();
       } else {
-        const err = await res.json();
-        msg.innerHTML = `<div class="msg error">Error: ${err.message || 'Something went wrong'}</div>`;
+        var err = await res.json();
+        msg.innerHTML = '<div class="msg error">Error: ' + (err.message || 'Something went wrong') + '</div>';
       }
     } catch(e) {
       msg.innerHTML = '<div class="msg error">Connection error. Try again.</div>';
     }
-
     btn.disabled = false;
     btn.textContent = 'Add Item to Site';
   }
 
   async function loadCurrentItems() {
-    const div = document.getElementById('current-items');
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/items?select=*&order=id.desc`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    var div = document.getElementById('current-items');
+    var res = await fetch(SUPABASE_URL + '/rest/v1/items?select=*&order=id.desc', {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
     });
-    const items = await res.json();
+    var items = await res.json();
     if (!items.length) { div.innerHTML = '<div style="color:#5f5e5a;font-size:13px;">No items yet</div>'; return; }
-    div.innerHTML = items.map(item => `
-      <div class="item-row">
-        ${item.image_url
-          ? `<img class="item-thumb" src="${item.image_url}" alt="${item.name}">`
-          : `<div class="item-thumb-placeholder">👕</div>`}
-        <div class="item-row-info">
-          <div class="item-row-name">${item.brand} — ${item.name}</div>
-          <div class="item-row-meta">$${item.price} · ${item.size} · ${item.category}${item.sold ? ' · SOLD' : ''}</div>
-        </div>
-        <div class="item-actions">
-          <button class="toggle-btn" onclick="toggleSold(${item.id}, ${item.sold})">${item.sold ? 'Available' : 'Mark sold'}</button>
-          <button class="delete-btn" onclick="deleteItem(${item.id})">Delete</button>
-        </div>
-      </div>
-    `).join('');
+    div.innerHTML = items.map(function(item) {
+      return '<div class="item-row">' +
+        (item.image_url ? '<img class="item-thumb" src="' + item.image_url + '" alt="">' : '<div class="item-thumb-placeholder">👕</div>') +
+        '<div class="item-row-info">' +
+          '<div class="item-row-name">' + (item.brand||'') + ' — ' + (item.name||'') + '</div>' +
+          '<div class="item-row-meta">$' + item.price + ' · ' + (item.size||'') + ' · ' + (item.category||'') + (item.sold ? ' · SOLD' : '') + '</div>' +
+        '</div>' +
+        '<div class="item-actions">' +
+          '<button class="toggle-btn" onclick="toggleSold(' + item.id + ',' + item.sold + ')">' + (item.sold ? 'Available' : 'Mark sold') + '</button>' +
+          '<button class="delete-btn" onclick="deleteItem(' + item.id + ')">Delete</button>' +
+        '</div></div>';
+    }).join('');
   }
 
   async function toggleSold(id, currentSold) {
-    await fetch(`${SUPABASE_URL}/rest/v1/items?id=eq.${id}`, {
+    await fetch(SUPABASE_URL + '/rest/v1/items?id=eq.' + id, {
       method: 'PATCH',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json'
-      },
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
       body: JSON.stringify({ sold: !currentSold })
     });
     loadCurrentItems();
@@ -306,9 +276,9 @@
 
   async function deleteItem(id) {
     if (!confirm('Delete this item?')) return;
-    await fetch(`${SUPABASE_URL}/rest/v1/items?id=eq.${id}`, {
+    await fetch(SUPABASE_URL + '/rest/v1/items?id=eq.' + id, {
       method: 'DELETE',
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
     });
     loadCurrentItems();
   }

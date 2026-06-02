@@ -243,20 +243,13 @@ async function runAI() {
   userContent.push({ type: 'text', text: 'Item: ' + prompt + '. Return only JSON, no markdown.' });
 
   try {
-    var res = await fetch('https://api.anthropic.com/v1/messages', {
+    var res = await fetch('/api/autofill', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 400,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userContent }]
-      })
+      body: JSON.stringify({ prompt: prompt, imageBase64: firstPhotoBase64, imageMime: firstPhotoMime })
     });
-    var data = await res.json();
-    var text = data.content && data.content[0] ? data.content[0].text : '';
-    var clean = text.replace(/```json|```/g, '').trim();
-    var parsed = JSON.parse(clean);
+    var parsed = await res.json();
+    if (parsed.error) throw new Error(parsed.error);
     if (parsed.brand) document.getElementById('brand').value = parsed.brand;
     if (parsed.name) document.getElementById('name').value = parsed.name;
     if (parsed.price) document.getElementById('price').value = parsed.price;

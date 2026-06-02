@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vic Local — Admin</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #111110; color: #e8e6e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+  .login-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .login-box { background: #1a1a18; border: 1px solid #2c2c2a; border-radius: 12px; padding: 2rem; width: 100%; max-width: 360px; }
+  .login-box h2 { font-size: 18px; font-weight: 500; margin-bottom: 1.5rem; color: #e8e6e0; }
+  .admin-wrap { max-width: 600px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1 { font-size: 20px; font-weight: 600; margin-bottom: 2rem; color: #e8e6e0; }
+  label { display: block; font-size: 12px; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; margin-top: 1rem; }
+  input, select, textarea { width: 100%; background: #1a1a18; border: 1px solid #2c2c2a; border-radius: 8px; padding: 10px 12px; color: #e8e6e0; font-size: 14px; font-family: inherit; outline: none; transition: border 0.2s; }
+  input:focus, select:focus, textarea:focus { border-color: #5f5e5a; }
+  textarea { resize: vertical; min-height: 80px; }
+  select option { background: #1a1a18; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .checkbox-row { display: flex; align-items: center; gap: 10px; margin-top: 1rem; }
+  .checkbox-row input { width: auto; }
+  .checkbox-row label { margin: 0; text-transform: none; font-size: 14px; color: #e8e6e0; letter-spacing: 0; }
+  .submit-btn { width: 100%; background: #e8e6e0; color: #111110; border: none; border-radius: 8px; padding: 12px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 1.5rem; transition: opacity 0.2s; }
+  .submit-btn:hover { opacity: 0.9; }
+  .submit-btn:disabled { opacity: 0.5; cursor: default; }
+  .msg { padding: 12px; border-radius: 8px; font-size: 13px; margin-top: 1rem; text-align: center; }
+  .msg.success { background: #0f6e56; color: #9fe1cb; }
+  .msg.error { background: #a32d2d; color: #f7c1c1; }
+  .items-list { margin-top: 2rem; }
+  .items-list h2 { font-size: 16px; font-weight: 500; margin-bottom: 1rem; color: #e8e6e0; border-top: 1px solid #2c2c2a; padding-top: 1.5rem; }
+  .item-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; background: #1a1a18; border-radius: 8px; margin-bottom: 8px; }
+  .item-row-info { font-size: 13px; }
+  .item-row-name { color: #e8e6e0; font-weight: 500; }
+  .item-row-meta { color: #888780; font-size: 12px; margin-top: 2px; }
+  .item-actions { display: flex; gap: 8px; }
+  .toggle-btn { background: #2c2c2a; border: 1px solid #444441; color: #e8e6e0; border-radius: 6px; padding: 5px 10px; font-size: 12px; cursor: pointer; }
+  .toggle-btn:hover { background: #3a3a38; }
+  .delete-btn { background: #3a1a1a; border: 1px solid #a32d2d; color: #f7c1c1; border-radius: 6px; padding: 5px 10px; font-size: 12px; cursor: pointer; }
+  .delete-btn:hover { background: #4a2020; }
+  .divider { border: none; border-top: 1px solid #2c2c2a; margin: 1.5rem 0; }
+  .logout { font-size: 12px; color: #5f5e5a; cursor: pointer; float: right; margin-top: 4px; }
+  .logout:hover { color: #888780; }
+</style>
+</head>
+<body>
+
+<div class="login-wrap" id="login-screen">
+  <div class="login-box">
+    <h2>Vic Local Admin</h2>
+    <label>Password</label>
+    <input type="password" id="password-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')login()">
+    <button class="submit-btn" onclick="login()" style="margin-top:1rem;">Enter</button>
+    <div id="login-msg"></div>
+  </div>
+</div>
+
+<div class="admin-wrap" id="admin-screen" style="display:none;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;">
+    <h1>Add New Item</h1>
+    <span class="logout" onclick="logout()">Log out</span>
+  </div>
+
+  <label>Brand</label>
+  <input type="text" id="brand" placeholder="Carhartt, Harley Davidson, Kakobuy...">
+
+  <label>Item Name</label>
+  <input type="text" id="name" placeholder="Vintage Logo Tee">
+
+  <div class="row">
+    <div>
+      <label>Price (CAD)</label>
+      <input type="number" id="price" placeholder="35">
+    </div>
+    <div>
+      <label>Size</label>
+      <input type="text" id="size" placeholder="M, L, XL, OS...">
+    </div>
+  </div>
+
+  <label>Category</label>
+  <select id="category">
+    <option value="shirts">Shirts</option>
+    <option value="hoodies">Hoodies</option>
+    <option value="belts">Belts</option>
+    <option value="kakobuy">Kakobuy</option>
+    <option value="other">Other</option>
+  </select>
+
+  <label>Description</label>
+  <textarea id="description" placeholder="Classic Carhartt workwear tee. Clean condition, no fading. Smoke-free, pet-free."></textarea>
+
+  <label>Image URL (optional — paste a link to your photo)</label>
+  <input type="text" id="image_url" placeholder="https://...">
+
+  <div class="checkbox-row">
+    <input type="checkbox" id="is_new" checked>
+    <label for="is_new">Mark as New</label>
+  </div>
+
+  <div class="checkbox-row">
+    <input type="checkbox" id="sold">
+    <label for="sold">Already Sold</label>
+  </div>
+
+  <button class="submit-btn" id="submit-btn" onclick="addItem()">Add Item to Site</button>
+  <div id="msg"></div>
+
+  <div class="items-list">
+    <h2>Current Items</h2>
+    <div id="current-items">Loading...</div>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://uyuyerbyjelelkshmmpn.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_VXPp5W2jIWZQtBCtIKa7Aw_lK4hZ718';
+  const ADMIN_PASSWORD = 'viclocal2024';
+
+  function login() {
+    const pw = document.getElementById('password-input').value;
+    if (pw === ADMIN_PASSWORD) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-screen').style.display = 'block';
+      loadCurrentItems();
+    } else {
+      document.getElementById('login-msg').innerHTML = '<div class="msg error">Wrong password</div>';
+    }
+  }
+
+  function logout() {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('admin-screen').style.display = 'none';
+    document.getElementById('password-input').value = '';
+  }
+
+  async function addItem() {
+    const btn = document.getElementById('submit-btn');
+    const msg = document.getElementById('msg');
+    btn.disabled = true;
+    btn.textContent = 'Adding...';
+
+    const item = {
+      brand: document.getElementById('brand').value.trim(),
+      name: document.getElementById('name').value.trim(),
+      price: parseInt(document.getElementById('price').value),
+      size: document.getElementById('size').value.trim(),
+      category: document.getElementById('category').value,
+      description: document.getElementById('description').value.trim(),
+      image_url: document.getElementById('image_url').value.trim() || null,
+      is_new: document.getElementById('is_new').checked,
+      sold: document.getElementById('sold').checked
+    };
+
+    if (!item.name || !item.brand || !item.price) {
+      msg.innerHTML = '<div class="msg error">Please fill in brand, name and price</div>';
+      btn.disabled = false;
+      btn.textContent = 'Add Item to Site';
+      return;
+    }
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/items`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(item)
+      });
+
+      if (res.ok) {
+        msg.innerHTML = '<div class="msg success">Item added! It\'s live on the site now.</div>';
+        document.getElementById('brand').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('size').value = '';
+        document.getElementById('description').value = '';
+        document.getElementById('image_url').value = '';
+        document.getElementById('is_new').checked = true;
+        document.getElementById('sold').checked = false;
+        loadCurrentItems();
+      } else {
+        const err = await res.json();
+        msg.innerHTML = `<div class="msg error">Error: ${err.message || 'Something went wrong'}</div>`;
+      }
+    } catch(e) {
+      msg.innerHTML = '<div class="msg error">Connection error. Try again.</div>';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Add Item to Site';
+  }
+
+  async function loadCurrentItems() {
+    const div = document.getElementById('current-items');
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/items?select=*&order=id.desc`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    const items = await res.json();
+    if (!items.length) { div.innerHTML = '<div style="color:#5f5e5a;font-size:13px;">No items yet</div>'; return; }
+    div.innerHTML = items.map(item => `
+      <div class="item-row">
+        <div class="item-row-info">
+          <div class="item-row-name">${item.brand} — ${item.name}</div>
+          <div class="item-row-meta">$${item.price} · ${item.size} · ${item.category} ${item.sold ? '· SOLD' : ''}</div>
+        </div>
+        <div class="item-actions">
+          <button class="toggle-btn" onclick="toggleSold(${item.id}, ${item.sold})">${item.sold ? 'Mark available' : 'Mark sold'}</button>
+          <button class="delete-btn" onclick="deleteItem(${item.id})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  async function toggleSold(id, currentSold) {
+    await fetch(`${SUPABASE_URL}/rest/v1/items?id=eq.${id}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ sold: !currentSold })
+    });
+    loadCurrentItems();
+  }
+
+  async function deleteItem(id) {
+    if (!confirm('Delete this item?')) return;
+    await fetch(`${SUPABASE_URL}/rest/v1/items?id=eq.${id}`, {
+      method: 'DELETE',
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    loadCurrentItems();
+  }
+</script>
+</body>
+</html>

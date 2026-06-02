@@ -37,16 +37,14 @@
   .upload-status { font-size: 12px; color: #9fe1cb; margin-top: 6px; display: none; }
   .items-list h2 { font-size: 16px; font-weight: 500; margin-bottom: 1rem; color: #e8e6e0; border-top: 1px solid #2c2c2a; padding-top: 1.5rem; margin-top: 2rem; }
   .item-row { display: flex; align-items: center; gap: 12px; padding: 12px; background: #1a1a18; border-radius: 8px; margin-bottom: 8px; }
-  .item-thumb { width: 48px; height: 48px; border-radius: 6px; object-fit: cover; background: #2c2c2a; flex-shrink: 0; }
+  .item-thumb { width: 48px; height: 48px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
   .item-thumb-placeholder { width: 48px; height: 48px; border-radius: 6px; background: #2c2c2a; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; }
   .item-row-info { flex: 1; font-size: 13px; min-width: 0; }
   .item-row-name { color: #e8e6e0; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .item-row-meta { color: #888780; font-size: 12px; margin-top: 2px; }
   .item-actions { display: flex; gap: 8px; flex-shrink: 0; }
   .toggle-btn { background: #2c2c2a; border: 1px solid #444441; color: #e8e6e0; border-radius: 6px; padding: 5px 10px; font-size: 12px; cursor: pointer; }
-  .toggle-btn:hover { background: #3a3a38; }
   .delete-btn { background: #3a1a1a; border: 1px solid #a32d2d; color: #f7c1c1; border-radius: 6px; padding: 5px 10px; font-size: 12px; cursor: pointer; }
-  .delete-btn:hover { background: #4a2020; }
   .logout { font-size: 12px; color: #5f5e5a; cursor: pointer; }
   .logout:hover { color: #888780; }
 </style>
@@ -69,7 +67,7 @@
   </div>
 
   <label>Photo</label>
-  <div class="upload-area" id="upload-area">
+  <div class="upload-area">
     <input type="file" id="photo-input" accept="image/*" onchange="handlePhotoSelect(event)">
     <div style="font-size:28px;margin-bottom:8px;">📷</div>
     <p id="upload-text">Tap to upload photo or drag and drop</p>
@@ -80,21 +78,12 @@
 
   <label>Brand</label>
   <input type="text" id="brand" placeholder="Carhartt, Fear of God, Harley Davidson...">
-
   <label>Item Name</label>
   <input type="text" id="name" placeholder="Essentials Sweat Shorts">
-
   <div class="row">
-    <div>
-      <label>Price (CAD)</label>
-      <input type="number" id="price" placeholder="50">
-    </div>
-    <div>
-      <label>Size</label>
-      <input type="text" id="size" placeholder="M, L, XL, OS...">
-    </div>
+    <div><label>Price (CAD)</label><input type="number" id="price" placeholder="50"></div>
+    <div><label>Size</label><input type="text" id="size" placeholder="M, L, XL, OS..."></div>
   </div>
-
   <label>Category</label>
   <select id="category">
     <option value="shirts">Shirts</option>
@@ -104,22 +93,12 @@
     <option value="kakobuy">Kakobuy</option>
     <option value="other">Other</option>
   </select>
-
   <label>Description</label>
   <textarea id="description" placeholder="Clean condition, smoke-free, pet-free..."></textarea>
-
-  <div class="checkbox-row">
-    <input type="checkbox" id="is_new" checked>
-    <label for="is_new">Mark as New</label>
-  </div>
-  <div class="checkbox-row">
-    <input type="checkbox" id="sold">
-    <label for="sold">Already Sold</label>
-  </div>
-
+  <div class="checkbox-row"><input type="checkbox" id="is_new" checked><label for="is_new">Mark as New</label></div>
+  <div class="checkbox-row"><input type="checkbox" id="sold"><label for="sold">Already Sold</label></div>
   <button class="submit-btn" id="submit-btn" onclick="addItem()">Add Item to Site</button>
   <div id="msg"></div>
-
   <div class="items-list">
     <h2>Current Items</h2>
     <div id="current-items">Loading...</div>
@@ -132,6 +111,19 @@
   var ADMIN_PASSWORD = 'viclocal2024';
   var BUCKET = 'item-photos';
   var uploadedImageUrl = null;
+
+  function headers(extra) {
+    var h = {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Accept-Profile': 'public',
+      'Content-Profile': 'public'
+    };
+    if (extra) Object.assign(h, extra);
+    return h;
+  }
 
   function login() {
     if (document.getElementById('password-input').value === ADMIN_PASSWORD) {
@@ -178,18 +170,17 @@
         document.getElementById('upload-status').style.display = 'block';
       } else {
         var err = await res.json();
-        document.getElementById('msg').innerHTML = '<div class="msg error">Photo upload failed: ' + (err.message || 'Unknown error') + '</div>';
+        document.getElementById('msg').innerHTML = '<div class="msg error">Photo upload failed: ' + (err.message||'Unknown error') + '</div>';
       }
     } catch(e) {
-      document.getElementById('msg').innerHTML = '<div class="msg error">Photo upload failed. Check connection.</div>';
+      document.getElementById('msg').innerHTML = '<div class="msg error">Photo upload failed.</div>';
     }
   }
 
   async function addItem() {
     var btn = document.getElementById('submit-btn');
     var msg = document.getElementById('msg');
-    btn.disabled = true;
-    btn.textContent = 'Adding...';
+    btn.disabled = true; btn.textContent = 'Adding...';
     var item = {
       brand: document.getElementById('brand').value.trim(),
       name: document.getElementById('name').value.trim(),
@@ -208,21 +199,12 @@
     try {
       var res = await fetch(SUPABASE_URL + '/rest/v1/items', {
         method: 'POST',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_KEY,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
+        headers: headers({'Prefer': 'return=minimal'}),
         body: JSON.stringify(item)
       });
       if (res.ok) {
         msg.innerHTML = '<div class="msg success">Item added! Live on the site now. 🔥</div>';
-        document.getElementById('brand').value = '';
-        document.getElementById('name').value = '';
-        document.getElementById('price').value = '';
-        document.getElementById('size').value = '';
-        document.getElementById('description').value = '';
+        ['brand','name','price','size','description'].forEach(function(id){ document.getElementById(id).value=''; });
         document.getElementById('preview-img').style.display = 'none';
         document.getElementById('upload-text').textContent = 'Tap to upload photo or drag and drop';
         document.getElementById('upload-progress').style.display = 'none';
@@ -234,52 +216,46 @@
         uploadedImageUrl = null;
         loadCurrentItems();
       } else {
-        var err = await res.json();
-        msg.innerHTML = '<div class="msg error">Error: ' + (err.message || 'Something went wrong') + '</div>';
+        var txt = await res.text();
+        msg.innerHTML = '<div class="msg error">Error: ' + txt + '</div>';
       }
     } catch(e) {
-      msg.innerHTML = '<div class="msg error">Connection error. Try again.</div>';
+      msg.innerHTML = '<div class="msg error">Connection error: ' + e.message + '</div>';
     }
-    btn.disabled = false;
-    btn.textContent = 'Add Item to Site';
+    btn.disabled = false; btn.textContent = 'Add Item to Site';
   }
 
   async function loadCurrentItems() {
     var div = document.getElementById('current-items');
-    var res = await fetch(SUPABASE_URL + '/rest/v1/items?select=*&order=id.desc', {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-    });
-    var items = await res.json();
-    if (!items.length) { div.innerHTML = '<div style="color:#5f5e5a;font-size:13px;">No items yet</div>'; return; }
-    div.innerHTML = items.map(function(item) {
-      return '<div class="item-row">' +
-        (item.image_url ? '<img class="item-thumb" src="' + item.image_url + '" alt="">' : '<div class="item-thumb-placeholder">👕</div>') +
-        '<div class="item-row-info">' +
-          '<div class="item-row-name">' + (item.brand||'') + ' — ' + (item.name||'') + '</div>' +
-          '<div class="item-row-meta">$' + item.price + ' · ' + (item.size||'') + ' · ' + (item.category||'') + (item.sold ? ' · SOLD' : '') + '</div>' +
-        '</div>' +
-        '<div class="item-actions">' +
-          '<button class="toggle-btn" onclick="toggleSold(' + item.id + ',' + item.sold + ')">' + (item.sold ? 'Available' : 'Mark sold') + '</button>' +
+    try {
+      var res = await fetch(SUPABASE_URL + '/rest/v1/items?select=*&order=id.desc', { headers: headers() });
+      var items = await res.json();
+      if (!Array.isArray(items) || items.length === 0) { div.innerHTML = '<div style="color:#5f5e5a;font-size:13px;">No items yet</div>'; return; }
+      div.innerHTML = items.map(function(item) {
+        return '<div class="item-row">' +
+          (item.image_url ? '<img class="item-thumb" src="' + item.image_url + '" alt="">' : '<div class="item-thumb-placeholder">👕</div>') +
+          '<div class="item-row-info"><div class="item-row-name">' + (item.brand||'') + ' — ' + (item.name||'') + '</div>' +
+          '<div class="item-row-meta">$' + item.price + ' · ' + (item.size||'') + ' · ' + (item.category||'') + (item.sold?' · SOLD':'') + '</div></div>' +
+          '<div class="item-actions">' +
+          '<button class="toggle-btn" onclick="toggleSold(' + item.id + ',' + item.sold + ')">' + (item.sold?'Available':'Mark sold') + '</button>' +
           '<button class="delete-btn" onclick="deleteItem(' + item.id + ')">Delete</button>' +
-        '</div></div>';
-    }).join('');
+          '</div></div>';
+      }).join('');
+    } catch(e) {
+      div.innerHTML = '<div style="color:#a32d2d;font-size:13px;">Error loading items: ' + e.message + '</div>';
+    }
   }
 
   async function toggleSold(id, currentSold) {
     await fetch(SUPABASE_URL + '/rest/v1/items?id=eq.' + id, {
-      method: 'PATCH',
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sold: !currentSold })
+      method: 'PATCH', headers: headers(), body: JSON.stringify({ sold: !currentSold })
     });
     loadCurrentItems();
   }
 
   async function deleteItem(id) {
     if (!confirm('Delete this item?')) return;
-    await fetch(SUPABASE_URL + '/rest/v1/items?id=eq.' + id, {
-      method: 'DELETE',
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-    });
+    await fetch(SUPABASE_URL + '/rest/v1/items?id=eq.' + id, { method: 'DELETE', headers: headers() });
     loadCurrentItems();
   }
 </script>

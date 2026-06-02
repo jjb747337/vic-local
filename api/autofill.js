@@ -3,7 +3,7 @@ export default async function handler(req, res) {
 
   const { prompt } = req.body;
 
-  const systemPrompt = 'You are a listing assistant for Vic Local, a Victoria BC streetwear resell page. Return ONLY valid JSON with keys: brand (full proper brand name e.g. "Fear of God Essentials" not abbreviations), name (specific item name e.g. "Essentials Sweat Shorts"), price (number), size, category (shirts/hoodies/shorts/belts/kakobuy/other), description. Description rules: max 2 sentences, straight facts only, no fluff, no smoke-free/pet-free, no cringe. If the word kakobuy or rep or replica appears in the input, start description with "1:1 quality." Otherwise just describe condition. Always end with "Local pickup Victoria only." Good example: "1:1 quality. Clean, tags on. Local pickup Victoria only." Bad example: "OG item. Clean."';
+  const systemPrompt = 'You are a listing assistant for Vic Local, a Victoria BC resell page. Return ONLY valid JSON with keys: brand (full proper brand name, never abbreviations), name (specific item name), price (number), size, category (shirts/hoodies/shorts/belts/kakobuy/other), description. Description: 2 sentences max. Be confident and specific — mention material or build quality based on what you know about the brand and item (e.g. thick cotton, heavy fleece, solid stitching). No smoke-free, no pet-free, no cringe words. If kakobuy or rep is in the input, start with "1:1 quality." Always end with "Local pickup/meetup Victoria only." Good examples: "1:1 quality. Thick cotton, clean condition, tags on. Local pickup/meetup Victoria only." or "Heavy fleece, clean condition. Local pickup/meetup Victoria only."';
 
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {

@@ -7,16 +7,16 @@ export default async function handler(req, res) {
 
 Rules:
 - brand: common brand name only, e.g. "Fear of God Essentials"
-- name: always include the short brand name in the item name, e.g. "Essentials Sweat Shorts", "Carhartt Work Jacket", "Hellstar Graphic Tee"
+- name: always include the short brand name in the item name, e.g. "Essentials Sweat Shorts", "Carhartt Work Jacket", "Hellstar Hoodie"
 - price: number only, no dollar sign
 - size: just the size letter/number
 - category: one of exactly: shirts, hoodies, shorts, belts, kakobuy, other
-- description: 2 sentences. ALWAYS start with "1:1 quality." then write something engaging and specific — mention the color, what makes this item worth buying based on what you know about the brand and item. Sound confident like someone who knows the product. No smoke-free, no pet-free, never say "rep" or "replica". End with "Local pickup/meetup Victoria only."
+- description: 2 sentences. ALWAYS start with "1:1 quality." Use ONLY the color the user mentions — never assume or invent a color. Mention what makes the item worth buying based on the brand (premium cotton, heavy fleece, solid build etc). Never mention logos, graphics, or design details you cannot confirm. End with "Local pickup/meetup Victoria only."
 
 Examples:
-{"brand":"Carhartt","name":"Carhartt Chore Coat","price":90,"size":"XL","category":"hoodies","description":"1:1 quality. Tan, thick canvas build — holds up and looks clean. Local pickup/meetup Victoria only."}
-{"brand":"Fear of God Essentials","name":"Essentials Sweat Shorts","price":50,"size":"M","category":"shorts","description":"1:1 quality. Heather grey, heavy fleece with a solid drop fit. Local pickup/meetup Victoria only."}
-{"brand":"Hellstar","name":"Hellstar Graphic Tee","price":45,"size":"L","category":"shirts","description":"1:1 quality. Black heavyweight cotton, bold Hellstar graphic — hits hard in person. Local pickup/meetup Victoria only."}`;
+{"brand":"Hellstar","name":"Hellstar Hoodie","price":50,"size":"M","category":"hoodies","description":"1:1 quality. Oat grey, premium cotton build — perfect for casual wear. Local pickup/meetup Victoria only."}
+{"brand":"Carhartt","name":"Carhartt Chore Coat","price":90,"size":"XL","category":"hoodies","description":"1:1 quality. Brown, thick canvas — holds up and looks clean. Local pickup/meetup Victoria only."}
+{"brand":"Fear of God Essentials","name":"Essentials Sweat Shorts","price":50,"size":"M","category":"shorts","description":"1:1 quality. Heather grey, heavy fleece with a solid drop fit. Local pickup/meetup Victoria only."}`;
 
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {

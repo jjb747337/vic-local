@@ -7,14 +7,16 @@ export default async function handler(req, res) {
 
 Rules:
 - brand: common brand name only, e.g. "Fear of God Essentials"
-- name: always include the short brand name in the item name, e.g. "Essentials Sweat Shorts", "Purple Brand Jeans", "Carhartt Work Jacket", "Harley Davidson Tee"
+- name: always include the short brand name in the item name, e.g. "Essentials Sweat Shorts", "Carhartt Work Jacket", "Hellstar Graphic Tee"
 - price: number only, no dollar sign
 - size: just the size letter/number
 - category: one of exactly: shirts, hoodies, shorts, belts, kakobuy, other
-- description: max 2 sentences. ALWAYS start with "1:1 quality." then mention the color and material quality (e.g. heather grey, thick cotton, heavy fleece, solid stitching). No smoke-free, no pet-free, never say "rep" or "replica". End with "Local pickup/meetup Victoria only."
+- description: 2 sentences. ALWAYS start with "1:1 quality." then write something engaging and specific — mention the color, what makes this item worth buying based on what you know about the brand and item. Sound confident like someone who knows the product. No smoke-free, no pet-free, never say "rep" or "replica". End with "Local pickup/meetup Victoria only."
 
-Example output:
-{"brand":"Fear of God Essentials","name":"Essentials Sweat Shorts","price":50,"size":"M","category":"shorts","description":"1:1 quality. Heather grey, thick cotton, clean condition. Local pickup/meetup Victoria only."}`;
+Examples:
+{"brand":"Carhartt","name":"Carhartt Chore Coat","price":90,"size":"XL","category":"hoodies","description":"1:1 quality. Tan, thick canvas build — holds up and looks clean. Local pickup/meetup Victoria only."}
+{"brand":"Fear of God Essentials","name":"Essentials Sweat Shorts","price":50,"size":"M","category":"shorts","description":"1:1 quality. Heather grey, heavy fleece with a solid drop fit. Local pickup/meetup Victoria only."}
+{"brand":"Hellstar","name":"Hellstar Graphic Tee","price":45,"size":"L","category":"shirts","description":"1:1 quality. Black heavyweight cotton, bold Hellstar graphic — hits hard in person. Local pickup/meetup Victoria only."}`;
 
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -26,7 +28,7 @@ Example output:
       body: JSON.stringify({
         model: 'llama-3.3-70b-versatile',
         max_tokens: 300,
-        temperature: 0.1,
+        temperature: 0.2,
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: prompt }

@@ -28,7 +28,9 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+    if (data.error) return res.status(500).json({ error: data.error.message || JSON.stringify(data.error) });
     const text = data.content && data.content[0] ? data.content[0].text : '';
+    if (!text) return res.status(500).json({ error: 'Empty response from AI: ' + JSON.stringify(data) });
     const clean = text.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(clean);
     res.status(200).json(parsed);

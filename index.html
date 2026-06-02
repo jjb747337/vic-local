@@ -6,123 +6,318 @@
 <title>Vic Local — Victoria BC Streetwear</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #111110; color: #e8e6e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-  nav { background: #1a1a18; border-bottom: 1px solid #2c2c2a; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
-  .logo { font-size: 20px; font-weight: 600; letter-spacing: 0.05em; color: #e8e6e0; }
-  .logo span { color: #888780; font-size: 12px; font-weight: 400; display: block; letter-spacing: 0.02em; }
-  .nav-links { display: flex; gap: 1.5rem; }
-  .nav-links a { color: #888780; font-size: 14px; text-decoration: none; cursor: pointer; transition: color 0.2s; }
+  html { scroll-behavior: smooth; }
+  body { background: #0e0e0d; color: #e8e6e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+  /* NAV */
+  nav { background: rgba(14,14,13,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid #222220; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; height: 60px; }
+  .logo { font-size: 17px; font-weight: 700; letter-spacing: 0.12em; color: #e8e6e0; text-transform: uppercase; }
+  .logo span { display: block; font-size: 10px; font-weight: 400; color: #555553; letter-spacing: 0.08em; margin-top: 1px; }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { color: #666664; font-size: 13px; text-decoration: none; letter-spacing: 0.04em; cursor: pointer; transition: color 0.2s; }
   .nav-links a:hover, .nav-links a.active { color: #e8e6e0; }
-  .hero { padding: 2.5rem 1.5rem 1.5rem; text-align: center; border-bottom: 1px solid #2c2c2a; }
-  .hero h1 { font-size: 28px; font-weight: 600; color: #e8e6e0; margin-bottom: 0.5rem; }
-  .hero p { color: #888780; font-size: 14px; margin-bottom: 1.25rem; }
-  .ig-btn { display: inline-flex; align-items: center; gap: 8px; background: #2c2c2a; color: #e8e6e0; border: 1px solid #444441; border-radius: 8px; padding: 10px 20px; font-size: 14px; text-decoration: none; }
-  .ig-btn:hover { background: #3a3a38; }
-  .filters { padding: 1rem 1.5rem; display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid #2c2c2a; }
-  .filter-btn { background: #1a1a18; border: 1px solid #444441; color: #888780; border-radius: 20px; padding: 6px 16px; font-size: 13px; cursor: pointer; transition: all 0.2s; }
-  .filter-btn.active, .filter-btn:hover { background: #2c2c2a; color: #e8e6e0; border-color: #5f5e5a; }
-  .section-label { padding: 1rem 1.5rem 0.5rem; font-size: 12px; color: #5f5e5a; text-transform: uppercase; letter-spacing: 0.08em; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: #2c2c2a; }
-  .card { background: #111110; transition: background 0.2s; }
-  .card:hover { background: #1a1a18; }
-  .card-img { width: 100%; aspect-ratio: 3/4; background: #1a1a18; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-  .card-img img { width: 100%; height: 100%; object-fit: cover; }
-  .sold-badge { position: absolute; top: 10px; right: 10px; background: #a32d2d; color: #f7c1c1; font-size: 11px; padding: 3px 8px; border-radius: 4px; }
-  .new-badge { position: absolute; top: 10px; right: 10px; background: #0f6e56; color: #9fe1cb; font-size: 11px; padding: 3px 8px; border-radius: 4px; }
-  .card-info { padding: 12px; }
-  .card-brand { font-size: 11px; color: #888780; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
-  .card-name { font-size: 14px; color: #e8e6e0; font-weight: 500; margin-bottom: 6px; }
-  .card-desc { font-size: 12px; color: #5f5e5a; margin-bottom: 8px; line-height: 1.5; }
-  .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+
+  /* HERO */
+  .hero { padding: 5rem 2rem 4rem; text-align: center; border-bottom: 1px solid #1c1c1a; }
+  .hero-tag { display: inline-block; font-size: 11px; letter-spacing: 0.12em; color: #555553; text-transform: uppercase; margin-bottom: 1.25rem; border: 1px solid #2a2a28; border-radius: 20px; padding: 4px 14px; }
+  .hero h1 { font-size: 42px; font-weight: 700; color: #e8e6e0; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.75rem; }
+  .hero h1 span { color: #444442; }
+  .hero p { color: #666664; font-size: 15px; margin-bottom: 2rem; max-width: 400px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: #e8e6e0; color: #0e0e0d; border-radius: 8px; padding: 11px 22px; font-size: 14px; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: #888886; border: 1px solid #2a2a28; border-radius: 8px; padding: 11px 22px; font-size: 14px; text-decoration: none; transition: all 0.2s; }
+  .btn-secondary:hover { border-color: #444442; color: #e8e6e0; }
+
+  /* FILTERS */
+  .filter-bar { padding: 1.25rem 2rem; display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid #1c1c1a; align-items: center; }
+  .filter-label { font-size: 11px; color: #444442; text-transform: uppercase; letter-spacing: 0.08em; margin-right: 4px; }
+  .filter-btn { background: transparent; border: 1px solid #2a2a28; color: #666664; border-radius: 20px; padding: 6px 16px; font-size: 12px; letter-spacing: 0.03em; cursor: pointer; transition: all 0.2s; }
+  .filter-btn:hover { border-color: #444442; color: #aaa8a2; }
+  .filter-btn.active { background: #e8e6e0; color: #0e0e0d; border-color: #e8e6e0; font-weight: 500; }
+
+  /* SECTION */
+  .section-header { padding: 1.5rem 2rem 1rem; display: flex; align-items: center; justify-content: space-between; }
+  .section-title { font-size: 11px; color: #444442; text-transform: uppercase; letter-spacing: 0.1em; }
+  .item-count { font-size: 11px; color: #333331; }
+
+  /* GRID */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2px; background: #1a1a18; margin: 0 2px; }
+  .card { background: #0e0e0d; cursor: pointer; transition: background 0.15s; position: relative; overflow: hidden; }
+  .card:hover { background: #141413; }
+  .card:hover .card-img img { transform: scale(1.03); }
+  .card-img { width: 100%; aspect-ratio: 3/4; background: #141413; overflow: hidden; position: relative; }
+  .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .badge { position: absolute; top: 12px; left: 12px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; font-weight: 600; }
+  .badge-new { background: #0f6e56; color: #9fe1cb; }
+  .badge-sold { background: rgba(14,14,13,0.85); color: #666664; border: 1px solid #2a2a28; }
+  .multi-badge { position: absolute; top: 12px; right: 12px; background: rgba(14,14,13,0.75); backdrop-filter: blur(4px); color: #888886; font-size: 10px; padding: 3px 8px; border-radius: 4px; border: 1px solid #2a2a28; }
+  .card-info { padding: 14px 16px 16px; }
+  .card-brand { font-size: 10px; color: #444442; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
+  .card-name { font-size: 14px; color: #c8c6c0; font-weight: 500; margin-bottom: 10px; line-height: 1.3; }
+  .card-bottom { display: flex; align-items: center; justify-content: space-between; }
   .card-price { font-size: 16px; color: #e8e6e0; font-weight: 600; }
-  .card-price.sold { color: #5f5e5a; text-decoration: line-through; }
-  .card-size { font-size: 12px; color: #888780; background: #2c2c2a; padding: 2px 8px; border-radius: 4px; }
-  .dm-btn { display: block; background: #1a1a18; border: 1px solid #444441; color: #e8e6e0; border-radius: 8px; padding: 10px; font-size: 13px; text-align: center; cursor: pointer; text-decoration: none; transition: background 0.2s; }
-  .dm-btn:hover { background: #2c2c2a; }
-  .dm-btn.sold-out { color: #444441; cursor: default; pointer-events: none; }
-  .loading { text-align: center; padding: 4rem; color: #5f5e5a; font-size: 14px; grid-column: 1/-1; }
-  .placeholder-img { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #444441; font-size: 12px; }
-  .footer { text-align: center; padding: 2rem; color: #444441; font-size: 12px; margin-top: 2rem; border-top: 1px solid #2c2c2a; }
+  .card-price.sold { color: #333331; text-decoration: line-through; }
+  .card-size { font-size: 11px; color: #555553; background: #1a1a18; padding: 3px 10px; border-radius: 4px; letter-spacing: 0.04em; }
+  .placeholder-img { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #2a2a28; }
+  .loading-grid { padding: 5rem 2rem; text-align: center; color: #333331; font-size: 13px; letter-spacing: 0.04em; }
+
+  /* LIGHTBOX */
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 1000; }
+  .lightbox.open { display: flex; }
+  .lb-inner { display: flex; width: 100%; height: 100%; }
+  .lb-photos { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; background: #0a0a09; }
+  .lb-main-img { max-width: 100%; max-height: 100vh; object-fit: contain; }
+  .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.06); border: 1px solid #2a2a28; color: #e8e6e0; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: background 0.2s; z-index: 2; }
+  .lb-prev:hover, .lb-next:hover { background: rgba(255,255,255,0.12); }
+  .lb-prev { left: 16px; }
+  .lb-next { right: 16px; }
+  .lb-thumbs { display: flex; gap: 6px; position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); }
+  .lb-thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 4px; cursor: pointer; opacity: 0.45; transition: opacity 0.2s; border: 1px solid transparent; }
+  .lb-thumb.active { opacity: 1; border-color: #e8e6e0; }
+  .lb-sidebar { width: 340px; flex-shrink: 0; background: #0e0e0d; border-left: 1px solid #1c1c1a; display: flex; flex-direction: column; overflow-y: auto; }
+  .lb-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.06); border: 1px solid #2a2a28; color: #e8e6e0; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; z-index: 10; transition: background 0.2s; }
+  .lb-close:hover { background: rgba(255,255,255,0.12); }
+  .lb-details { padding: 2rem 1.5rem; flex: 1; }
+  .lb-brand { font-size: 11px; color: #444442; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .lb-name { font-size: 22px; font-weight: 600; color: #e8e6e0; margin-bottom: 1rem; line-height: 1.2; letter-spacing: -0.01em; }
+  .lb-price { font-size: 28px; font-weight: 700; color: #e8e6e0; margin-bottom: 0.5rem; }
+  .lb-size { display: inline-block; font-size: 12px; color: #888886; background: #1a1a18; padding: 4px 12px; border-radius: 4px; margin-bottom: 1.5rem; }
+  .lb-desc { font-size: 13px; color: #666664; line-height: 1.7; margin-bottom: 2rem; border-top: 1px solid #1c1c1a; padding-top: 1.5rem; }
+  .lb-dm { display: block; width: 100%; background: #e8e6e0; color: #0e0e0d; border: none; border-radius: 8px; padding: 14px; font-size: 14px; font-weight: 600; text-align: center; text-decoration: none; cursor: pointer; transition: opacity 0.2s; margin-bottom: 10px; }
+  .lb-dm:hover { opacity: 0.88; }
+  .lb-sold-msg { text-align: center; font-size: 13px; color: #444442; padding: 14px; border: 1px solid #1c1c1a; border-radius: 8px; }
+  .lb-footer { padding: 1rem 1.5rem; border-top: 1px solid #1c1c1a; font-size: 11px; color: #333331; text-align: center; letter-spacing: 0.04em; }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 3rem 2rem; color: #2a2a28; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-top: 1px solid #1a1a18; margin-top: 2px; }
+
+  @media (max-width: 640px) {
+    .lb-inner { flex-direction: column; }
+    .lb-sidebar { width: 100%; border-left: none; border-top: 1px solid #1c1c1a; max-height: 50vh; }
+    .lb-photos { min-height: 50vh; }
+    nav { padding: 0 1rem; }
+    .hero { padding: 3rem 1.25rem 2.5rem; }
+    .hero h1 { font-size: 28px; }
+    .grid { margin: 0 1px; }
+    .filter-bar { padding: 1rem 1.25rem; }
+    .section-header { padding: 1.25rem 1.25rem 0.75rem; }
+  }
 </style>
 </head>
 <body>
+
 <nav>
-  <div class="logo">VIC LOCAL<span>Victoria, BC · Streetwear & Kakobuy</span></div>
+  <div class="logo">Vic Local<span>Victoria, BC</span></div>
   <div class="nav-links">
-    <a href="#" onclick="filterItems('all');return false;" class="active" id="filter-all">All</a>
-    <a href="#" onclick="filterItems('shirts');return false;" id="filter-shirts">Shirts</a>
-    <a href="#" onclick="filterItems('hoodies');return false;" id="filter-hoodies">Hoodies</a>
-    <a href="#" onclick="filterItems('shorts');return false;" id="filter-shorts">Shorts</a>
-    <a href="#" onclick="filterItems('belts');return false;" id="filter-belts">Belts</a>
+    <a href="#" onclick="filterItems('all');return false;" class="active" id="fnav-all">All</a>
+    <a href="#" onclick="filterItems('shirts');return false;" id="fnav-shirts">Shirts</a>
+    <a href="#" onclick="filterItems('hoodies');return false;" id="fnav-hoodies">Hoodies</a>
+    <a href="#" onclick="filterItems('shorts');return false;" id="fnav-shorts">Shorts</a>
+    <a href="#" onclick="filterItems('belts');return false;" id="fnav-belts">Belts</a>
   </div>
 </nav>
+
 <div class="hero">
-  <h1>Fresh Fits. Local Only.</h1>
-  <p>Streetwear & designer pieces — pickup in Victoria, BC. DM to cop.</p>
-  <a class="ig-btn" href="https://www.instagram.com/altaccount232026/" target="_blank">📷 @altaccount232026 · DM to buy</a>
+  <div class="hero-tag">Victoria, BC · Local Pickup Only</div>
+  <h1>Fresh fits.<br><span>Local only.</span></h1>
+  <p>Streetwear, kakobuy, and designer pieces. Cash or e-transfer. DM to cop.</p>
+  <div class="hero-btns">
+    <a class="btn-primary" href="https://www.instagram.com/altaccount232026/" target="_blank">DM on Instagram</a>
+    <a class="btn-secondary" href="#" onclick="document.querySelector('.filter-bar').scrollIntoView();return false;">Browse drops</a>
+  </div>
 </div>
-<div class="filters">
-  <button class="filter-btn active" onclick="filterItems('all')" id="btn-all">All drops</button>
-  <button class="filter-btn" onclick="filterItems('shirts')" id="btn-shirts">Shirts</button>
-  <button class="filter-btn" onclick="filterItems('hoodies')" id="btn-hoodies">Hoodies</button>
-  <button class="filter-btn" onclick="filterItems('shorts')" id="btn-shorts">Shorts</button>
-  <button class="filter-btn" onclick="filterItems('belts')" id="btn-belts">Belts</button>
-  <button class="filter-btn" onclick="filterItems('kakobuy')" id="btn-kakobuy">Kakobuy</button>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter</span>
+  <button class="filter-btn active" onclick="filterItems('all')" id="fbtn-all">All drops</button>
+  <button class="filter-btn" onclick="filterItems('shirts')" id="fbtn-shirts">Shirts</button>
+  <button class="filter-btn" onclick="filterItems('hoodies')" id="fbtn-hoodies">Hoodies</button>
+  <button class="filter-btn" onclick="filterItems('shorts')" id="fbtn-shorts">Shorts</button>
+  <button class="filter-btn" onclick="filterItems('belts')" id="fbtn-belts">Belts</button>
+  <button class="filter-btn" onclick="filterItems('kakobuy')" id="fbtn-kakobuy">Kakobuy</button>
 </div>
-<div class="section-label">Latest drops</div>
-<div class="grid" id="items-grid"><div class="loading">Loading items...</div></div>
-<div class="footer">Vic Local · Victoria, BC · Cash & E-transfer only · Local pickup only</div>
+
+<div class="section-header">
+  <span class="section-title">Latest drops</span>
+  <span class="item-count" id="item-count"></span>
+</div>
+
+<div class="grid" id="items-grid">
+  <div class="loading-grid">Loading drops...</div>
+</div>
+
+<footer>Vic Local · Victoria BC · Cash & E-transfer · Local pickup only</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
+  <div class="lb-inner">
+    <div class="lb-photos" id="lb-photos">
+      <div class="lb-close" onclick="closeLightbox()">✕</div>
+      <img class="lb-main-img" id="lb-main-img" src="" alt="">
+      <div class="lb-prev" id="lb-prev" onclick="changePhoto(-1)">‹</div>
+      <div class="lb-next" id="lb-next" onclick="changePhoto(1)">›</div>
+      <div class="lb-thumbs" id="lb-thumbs"></div>
+    </div>
+    <div class="lb-sidebar">
+      <div class="lb-details">
+        <div class="lb-brand" id="lb-brand"></div>
+        <div class="lb-name" id="lb-name"></div>
+        <div class="lb-price" id="lb-price"></div>
+        <div class="lb-size" id="lb-size"></div>
+        <div class="lb-desc" id="lb-desc"></div>
+        <div id="lb-action"></div>
+      </div>
+      <div class="lb-footer">Victoria BC · Local pickup only · Cash or e-transfer</div>
+    </div>
+  </div>
+</div>
+
 <script>
-  const SUPABASE_URL = 'https://uyuyerbyjelelkshmmpn.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dXllcmJ5amVsZWxrc2htbXBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzNTI2NTgsImV4cCI6MjA5NTkyODY1OH0.zM93TUtb3ZUF9PP5R_4ZA9ke0FcYXJaim4W1t7OfnYE';
-  let allItems = [];
+  var SUPABASE_URL = 'https://uyuyerbyjelelkshmmpn.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dXllcmJ5amVsZWxrc2htbXBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzNTI2NTgsImV4cCI6MjA5NTkyODY1OH0.zM93TUtb3ZUF9PP5R_4ZA9ke0FcYXJaim4W1t7OfnYE';
+  var allItems = [];
+  var currentPhotos = [];
+  var currentPhotoIdx = 0;
+
+  function hdrs() {
+    return {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Accept-Profile': 'public'
+    };
+  }
 
   async function loadItems() {
     try {
-      const res = await fetch(SUPABASE_URL + '/rest/v1/items?select=*&order=id.desc', {
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-      });
+      var res = await fetch(SUPABASE_URL + '/rest/v1/items?select=*&order=id.desc', { headers: hdrs() });
       allItems = await res.json();
+      if (!Array.isArray(allItems)) allItems = [];
       renderItems(allItems);
     } catch(e) {
-      document.getElementById('items-grid').innerHTML = '<div class="loading">Could not load items. Try refreshing.</div>';
+      document.getElementById('items-grid').innerHTML = '<div class="loading-grid">Could not load items. Try refreshing.</div>';
     }
   }
 
   function filterItems(cat) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-    var bb = document.getElementById('btn-' + cat);
-    var ff = document.getElementById('filter-' + cat);
-    if(bb) bb.classList.add('active');
-    if(ff) ff.classList.add('active');
-    renderItems(cat === 'all' ? allItems : allItems.filter(i => i.category && i.category.toLowerCase() === cat));
+    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.nav-links a').forEach(function(a){ a.classList.remove('active'); });
+    var fb = document.getElementById('fbtn-' + cat);
+    var fn = document.getElementById('fnav-' + cat);
+    if(fb) fb.classList.add('active');
+    if(fn) fn.classList.add('active');
+    var filtered = cat === 'all' ? allItems : allItems.filter(function(i){ return i.category && i.category.toLowerCase() === cat; });
+    renderItems(filtered);
+  }
+
+  function getPhotos(item) {
+    if (item.images) {
+      return item.images.split(',').map(function(u){ return u.trim(); }).filter(Boolean);
+    }
+    if (item.image_url) return [item.image_url];
+    return [];
   }
 
   function renderItems(items) {
     var grid = document.getElementById('items-grid');
+    var count = document.getElementById('item-count');
     if (!items || items.length === 0) {
-      grid.innerHTML = '<div class="loading">No items yet — check back soon.</div>';
+      grid.innerHTML = '<div class="loading-grid">No drops yet — check back soon.</div>';
+      count.textContent = '';
       return;
     }
-    grid.innerHTML = items.map(function(item) {
-      return '<div class="card">' +
+    count.textContent = items.length + ' item' + (items.length !== 1 ? 's' : '');
+    grid.innerHTML = items.map(function(item, idx) {
+      var photos = getPhotos(item);
+      var firstPhoto = photos[0] || '';
+      return '<div class="card" onclick="openLightbox(' + idx + ')">' +
         '<div class="card-img">' +
-          (item.image_url ? '<img src="' + item.image_url + '" alt="' + (item.name||'') + '" loading="lazy">' : '<div class="placeholder-img">📷<span>Photo coming</span></div>') +
-          (item.sold ? '<div class="sold-badge">Sold</div>' : (item.is_new ? '<div class="new-badge">New</div>' : '')) +
+          (firstPhoto ? '<img src="' + firstPhoto + '" alt="' + (item.name||'') + '" loading="lazy">' : '<div class="placeholder-img"><svg width="40" height="40" fill="none" stroke="#2a2a28" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div>') +
+          (item.sold ? '<div class="badge badge-sold">Sold</div>' : (item.is_new ? '<div class="badge badge-new">New</div>' : '')) +
+          (photos.length > 1 ? '<div class="multi-badge">1 / ' + photos.length + '</div>' : '') +
         '</div>' +
         '<div class="card-info">' +
           '<div class="card-brand">' + (item.brand||'') + '</div>' +
           '<div class="card-name">' + (item.name||'') + '</div>' +
-          '<div class="card-desc">' + (item.description||'') + '</div>' +
-          '<div class="card-meta">' +
-            '<span class="card-price' + (item.sold ? ' sold' : '') + '">$' + item.price + '</span>' +
+          '<div class="card-bottom">' +
+            '<span class="card-price' + (item.sold?' sold':'') + '">$' + item.price + '</span>' +
             '<span class="card-size">' + (item.size||'') + '</span>' +
           '</div>' +
-          (item.sold ? '<div class="dm-btn sold-out">Sold out</div>' : '<a class="dm-btn" href="https://www.instagram.com/altaccount232026/" target="_blank">DM to buy → @altaccount232026</a>') +
         '</div></div>';
     }).join('');
   }
+
+  function openLightbox(idx) {
+    var filtered = getCurrentFiltered();
+    var item = filtered[idx];
+    if (!item) return;
+    currentPhotos = getPhotos(item);
+    currentPhotoIdx = 0;
+    document.getElementById('lb-brand').textContent = item.brand || '';
+    document.getElementById('lb-name').textContent = item.name || '';
+    document.getElementById('lb-price').textContent = '$' + item.price;
+    document.getElementById('lb-size').textContent = 'Size ' + (item.size||'One size');
+    document.getElementById('lb-desc').textContent = item.description || '';
+    document.getElementById('lb-action').innerHTML = item.sold
+      ? '<div class="lb-sold-msg">This item has been sold</div>'
+      : '<a class="lb-dm" href="https://www.instagram.com/altaccount232026/" target="_blank">DM to buy → @altaccount232026</a>';
+    updateLightboxPhoto();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function updateLightboxPhoto() {
+    var img = document.getElementById('lb-main-img');
+    var thumbs = document.getElementById('lb-thumbs');
+    var prev = document.getElementById('lb-prev');
+    var next = document.getElementById('lb-next');
+    if (currentPhotos.length === 0) {
+      img.src = '';
+      thumbs.innerHTML = '';
+      prev.style.display = 'none';
+      next.style.display = 'none';
+      return;
+    }
+    img.src = currentPhotos[currentPhotoIdx];
+    prev.style.display = currentPhotos.length > 1 ? 'flex' : 'none';
+    next.style.display = currentPhotos.length > 1 ? 'flex' : 'none';
+    thumbs.innerHTML = currentPhotos.map(function(url, i) {
+      return '<img class="lb-thumb' + (i === currentPhotoIdx ? ' active' : '') + '" src="' + url + '" onclick="setPhoto(' + i + ')" alt="">';
+    }).join('');
+  }
+
+  function setPhoto(idx) {
+    currentPhotoIdx = idx;
+    updateLightboxPhoto();
+  }
+
+  function changePhoto(dir) {
+    currentPhotoIdx = (currentPhotoIdx + dir + currentPhotos.length) % currentPhotos.length;
+    updateLightboxPhoto();
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeLightboxOnBg(e) {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  }
+
+  function getCurrentFiltered() {
+    var active = document.querySelector('.filter-btn.active');
+    if (!active) return allItems;
+    var cat = active.id.replace('fbtn-', '');
+    return cat === 'all' ? allItems : allItems.filter(function(i){ return i.category && i.category.toLowerCase() === cat; });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') changePhoto(-1);
+    if (e.key === 'ArrowRight') changePhoto(1);
+  });
 
   loadItems();
 </script>

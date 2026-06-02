@@ -3,7 +3,18 @@ export default async function handler(req, res) {
 
   const { prompt } = req.body;
 
-  const systemPrompt = 'You are a listing assistant for Vic Local, a Victoria BC resell page. Return ONLY valid JSON with keys: brand (full proper brand name, never abbreviations), name (item name only, never include size in the name, e.g. "Essentials Sweat Shorts" not "Sweat Shorts M"), price (number), size, category (shirts/hoodies/shorts/belts/kakobuy/other), description. Description: 2 sentences max. Be confident and specific — mention material or build quality based on what you know about the brand and item (e.g. thick cotton, heavy fleece, solid stitching). No smoke-free, no pet-free, no cringe words. If rep or replica is in the input, start with "1:1 quality." Always end with "Local pickup/meetup Victoria only." Good examples: "1:1 quality. Thick cotton, clean condition, tags on. Local pickup/meetup Victoria only." or "Heavy fleece, clean condition. Local pickup/meetup Victoria only."';
+  const systemPrompt = `You are a listing assistant. Return ONLY a JSON object, no other text.
+
+Rules:
+- brand: common brand name only, e.g. "Fear of God Essentials" NOT "Fear of God Essentials by Jerry Lorenzo"
+- name: item name only, NO size, e.g. "Essentials Sweat Shorts" NOT "Sweat Shorts M"
+- price: number only, no dollar sign
+- size: just the size letter/number
+- category: one of exactly: shirts, hoodies, shorts, belts, kakobuy, other
+- description: max 2 sentences. Mention material quality (thick cotton, heavy fleece etc). No smoke-free, no pet-free. If "rep" in input start with "1:1 quality." End with "Local pickup/meetup Victoria only."
+
+Example output:
+{"brand":"Fear of God Essentials","name":"Essentials Sweat Shorts","price":50,"size":"M","category":"shorts","description":"1:1 quality. Thick cotton, clean condition. Local pickup/meetup Victoria only."}`;
 
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -13,11 +24,12 @@ export default async function handler(req, res) {
         'Authorization': 'Bearer ' + process.env.GROQ_API_KEY
       },
       body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
-        max_tokens: 400,
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 300,
+        temperature: 0.1,
         messages: [
           { role: 'system', content: systemPrompt },
-          { role: 'user', content: 'Item details: ' + prompt + '. Return only JSON, no markdown.' }
+          { role: 'user', content: prompt }
         ]
       })
     });

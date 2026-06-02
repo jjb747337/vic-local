@@ -6,12 +6,12 @@ export default async function handler(req, res) {
   const systemPrompt = `You are a listing assistant. Return ONLY a JSON object, no other text.
 
 Rules:
-- brand: common brand name only, e.g. "Fear of God Essentials" NOT "Fear of God Essentials by Jerry Lorenzo"
-- name: item name only, NO size, e.g. "Essentials Sweat Shorts" NOT "Sweat Shorts M"
+- brand: common brand name only, e.g. "Fear of God Essentials"
+- name: always include the short brand name in the item name, e.g. "Essentials Sweat Shorts", "Purple Brand Jeans", "Carhartt Work Jacket", "Harley Davidson Tee"
 - price: number only, no dollar sign
 - size: just the size letter/number
 - category: one of exactly: shirts, hoodies, shorts, belts, kakobuy, other
-- description: max 2 sentences. Mention material quality (thick cotton, heavy fleece etc). No smoke-free, no pet-free. If "rep" in input start with "1:1 quality." End with "Local pickup/meetup Victoria only."
+- description: max 2 sentences. Mention material quality (thick cotton, heavy fleece, solid stitching etc). No smoke-free, no pet-free, never say "rep" or "replica". If "rep" or "1:1" in input start with "1:1 quality." End with "Local pickup/meetup Victoria only."
 
 Example output:
 {"brand":"Fear of God Essentials","name":"Essentials Sweat Shorts","price":50,"size":"M","category":"shorts","description":"1:1 quality. Thick cotton, clean condition. Local pickup/meetup Victoria only."}`;

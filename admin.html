@@ -129,6 +129,8 @@ select option { background: #0e0e0d; }
       <option value="kakobuy">Kakobuy</option>
       <option value="other">Other</option>
     </select>
+    <label>Tags (comma separated — color, brand, type)</label>
+    <input type="text" id="tags" placeholder="grey, essentials, shorts, fog">
     <label>Description</label>
     <textarea id="description" placeholder="AI will write this for you..."></textarea>
     <div class="checkbox-row"><input type="checkbox" id="is_new" checked><label for="is_new">Mark as New</label></div>
@@ -255,6 +257,7 @@ async function runAI() {
     if (parsed.price) document.getElementById('price').value = parsed.price;
     if (parsed.size) document.getElementById('size').value = parsed.size;
     if (parsed.category) document.getElementById('category').value = parsed.category;
+    if (parsed.tags) document.getElementById('tags').value = parsed.tags;
     if (parsed.description) document.getElementById('description').value = parsed.description;
     status.textContent = 'Done — check fields and hit Add Item.';
   } catch(e) {
@@ -278,6 +281,7 @@ async function addItem() {
     category: document.getElementById('category').value,
     description: document.getElementById('description').value.trim(),
     images: photos.length ? photos.join(',') : null,
+    tags: document.getElementById('tags').value.trim() || null,
     is_new: document.getElementById('is_new').checked,
     sold: document.getElementById('sold').checked
   };
@@ -291,7 +295,7 @@ async function addItem() {
     });
     if (res.ok) {
       msg.innerHTML = '<div class="msg success">Item added! Live on the site. 🔥</div>';
-      ['brand','name','price','size','description'].forEach(function(id){ document.getElementById(id).value=''; });
+      ['brand','name','price','size','description','tags'].forEach(function(id){ document.getElementById(id).value=''; });
       uploadedUrls = [null,null,null,null]; firstPhotoBase64 = null;
       for(var i=0;i<4;i++) removePhoto(i);
       document.getElementById('is_new').checked = true;

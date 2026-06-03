@@ -18,7 +18,7 @@ Rules:
 - sold_sizes: comma-separated sold out sizes — usually empty "" unless specified
 - category: shirts, hoodies, shorts, belts, kakobuy, other
 - tags: comma-separated, max 4, Title Case e.g. "Grey, Essentials, Shorts, FOG"
-- description: 2 sentences. ALWAYS start "1:1 quality." mention color and what makes item worth buying. No smoke-free/pet-free/rep/replica. End "Local pickup/meetup Victoria only."
+- description: 2 sentences MAX. Always start "1:1 quality." then ONE specific thing about the item (material, color, condition). Keep it simple and short. No fluff, no "wardrobe", no "versatile", no cringe. End "Local pickup/meetup Victoria only."
 
 Example:
 {"brand":"Fear of God Essentials","name":"Essentials Sweat Shorts","price":50,"sizes":"S,M,L","sold_sizes":"","category":"shorts","tags":"Grey, Essentials, Shorts, FOG","description":"1:1 quality. Heather grey, heavy fleece with a solid drop fit. Local pickup/meetup Victoria only."}`;

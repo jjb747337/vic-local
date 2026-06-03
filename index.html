@@ -3,105 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vic Local — Victoria BC Streetwear</title>
+<title>Vic Local — Victoria BC</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { background: #0e0e0d; color: #e8e6e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  body { background: #0e0e0d; color: #e8e6e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; overflow-x: hidden; }
 
   /* NAV */
-  nav { background: rgba(14,14,13,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid #222220; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; height: 60px; }
-  .logo { font-size: 17px; font-weight: 700; letter-spacing: 0.12em; color: #e8e6e0; text-transform: uppercase; }
-  .logo span { display: block; font-size: 10px; font-weight: 400; color: #555553; letter-spacing: 0.08em; margin-top: 1px; }
-  .nav-links { display: flex; gap: 2rem; }
-  .nav-links a { color: #666664; font-size: 13px; text-decoration: none; letter-spacing: 0.04em; cursor: pointer; transition: color 0.2s; }
+  nav { background: rgba(14,14,13,0.95); backdrop-filter: blur(16px); border-bottom: 1px solid #1e1e1c; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; height: 56px; }
+  .logo { font-size: 15px; font-weight: 700; letter-spacing: 0.1em; color: #e8e6e0; text-transform: uppercase; white-space: nowrap; }
+  .logo span { display: block; font-size: 9px; font-weight: 400; color: #444442; letter-spacing: 0.06em; margin-top: 1px; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { color: #555553; font-size: 12px; text-decoration: none; letter-spacing: 0.04em; cursor: pointer; transition: color 0.2s; white-space: nowrap; }
   .nav-links a:hover, .nav-links a.active { color: #e8e6e0; }
 
   /* HERO */
-  .hero { padding: 5rem 2rem 4rem; text-align: center; border-bottom: 1px solid #1c1c1a; }
-  .hero-tag { display: inline-block; font-size: 11px; letter-spacing: 0.12em; color: #555553; text-transform: uppercase; margin-bottom: 1.25rem; border: 1px solid #2a2a28; border-radius: 20px; padding: 4px 14px; }
-  .hero h1 { font-size: 42px; font-weight: 700; color: #e8e6e0; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.75rem; }
-  .hero h1 span { color: #444442; }
-  .hero p { color: #666664; font-size: 15px; margin-bottom: 2rem; max-width: 400px; margin-left: auto; margin-right: auto; line-height: 1.6; }
-  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: #e8e6e0; color: #0e0e0d; border-radius: 8px; padding: 11px 22px; font-size: 14px; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
-  .btn-primary:hover { opacity: 0.88; }
-  .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: #888886; border: 1px solid #2a2a28; border-radius: 8px; padding: 11px 22px; font-size: 14px; text-decoration: none; transition: all 0.2s; }
-  .btn-secondary:hover { border-color: #444442; color: #e8e6e0; }
+  .hero { padding: 4rem 1.5rem 3.5rem; text-align: center; border-bottom: 1px solid #1e1e1c; opacity: 0; transform: translateY(20px); animation: fadeUp 0.7s ease forwards 0.1s; }
+  .hero-tag { display: inline-block; font-size: 10px; letter-spacing: 0.14em; color: #555553; text-transform: uppercase; margin-bottom: 1.25rem; border: 1px solid #222220; border-radius: 20px; padding: 5px 14px; }
+  .hero h1 { font-size: 38px; font-weight: 700; color: #e8e6e0; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.75rem; }
+  .hero h1 em { color: #3a3a38; font-style: normal; }
+  .hero p { color: #555553; font-size: 14px; margin-bottom: 2rem; max-width: 340px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+  .hero-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: #e8e6e0; color: #0e0e0d; border-radius: 10px; padding: 11px 22px; font-size: 13px; font-weight: 600; text-decoration: none; transition: opacity 0.2s, transform 0.2s; }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: #666664; border: 1px solid #222220; border-radius: 10px; padding: 11px 22px; font-size: 13px; text-decoration: none; transition: all 0.2s; cursor: pointer; }
+  .btn-secondary:hover { border-color: #444442; color: #e8e6e0; transform: translateY(-1px); }
 
   /* FILTERS */
-  .filter-bar { padding: 1.25rem 2rem; display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid #1c1c1a; align-items: center; }
-  .filter-label { font-size: 11px; color: #444442; text-transform: uppercase; letter-spacing: 0.08em; margin-right: 4px; }
-  .filter-btn { background: transparent; border: 1px solid #2a2a28; color: #666664; border-radius: 20px; padding: 6px 16px; font-size: 12px; letter-spacing: 0.03em; cursor: pointer; transition: all 0.2s; }
-  .filter-btn:hover { border-color: #444442; color: #aaa8a2; }
-  .filter-btn.active { background: #e8e6e0; color: #0e0e0d; border-color: #e8e6e0; font-weight: 500; }
+  .filter-bar { padding: 1rem 1.5rem; display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid #1e1e1c; align-items: center; opacity: 0; animation: fadeUp 0.7s ease forwards 0.3s; }
+  .filter-label { font-size: 10px; color: #333331; text-transform: uppercase; letter-spacing: 0.08em; margin-right: 4px; }
+  .filter-btn { background: transparent; border: 1px solid #222220; color: #555553; border-radius: 20px; padding: 6px 14px; font-size: 11px; letter-spacing: 0.03em; cursor: pointer; transition: all 0.2s; }
+  .filter-btn:hover { border-color: #3a3a38; color: #aaa8a2; }
+  .filter-btn.active { background: #e8e6e0; color: #0e0e0d; border-color: #e8e6e0; font-weight: 600; }
 
-  /* SECTION */
-  .section-header { padding: 1.5rem 2rem 1rem; display: flex; align-items: center; justify-content: space-between; }
-  .section-title { font-size: 11px; color: #444442; text-transform: uppercase; letter-spacing: 0.1em; }
-  .item-count { font-size: 11px; color: #333331; }
+  /* SECTION HEADER */
+  .section-header { padding: 1.25rem 1.5rem 0.75rem; display: flex; align-items: center; justify-content: space-between; }
+  .section-title { font-size: 10px; color: #333331; text-transform: uppercase; letter-spacing: 0.12em; }
+  .item-count { font-size: 10px; color: #2a2a28; }
 
-  /* GRID */
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2px; background: #1a1a18; margin: 0 2px; }
-  .card { background: #0e0e0d; cursor: pointer; transition: background 0.15s; position: relative; overflow: hidden; }
-  .card:hover { background: #141413; }
-  .card:hover .card-img img { transform: scale(1.03); }
-  .card-img { width: 100%; aspect-ratio: 3/4; background: #141413; overflow: hidden; position: relative; }
+  /* GRID — Facebook style with margins */
+  .grid-wrap { padding: 0 1rem 1rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+
+  /* CARD */
+  .card { background: #141413; border: 1px solid #1e1e1c; border-radius: 12px; cursor: pointer; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; overflow: hidden; opacity: 0; transform: translateY(16px); }
+  .card.visible { animation: fadeUp 0.5s ease forwards; }
+  .card:hover { transform: translateY(-3px); border-color: #2a2a28; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  .card-img { width: 100%; aspect-ratio: 1/1; background: #1a1a18; overflow: hidden; position: relative; border-radius: 12px 12px 0 0; }
   .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-  .badge { position: absolute; top: 12px; left: 12px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; font-weight: 600; }
+  .card:hover .card-img img { transform: scale(1.04); }
+  .badge { position: absolute; top: 10px; left: 10px; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border-radius: 6px; font-weight: 700; }
   .badge-new { background: #0f6e56; color: #9fe1cb; }
-  .badge-sold { background: rgba(14,14,13,0.85); color: #666664; border: 1px solid #2a2a28; }
-  .multi-badge { position: absolute; top: 12px; right: 12px; background: rgba(14,14,13,0.75); backdrop-filter: blur(4px); color: #888886; font-size: 10px; padding: 3px 8px; border-radius: 4px; border: 1px solid #2a2a28; }
-  .card-info { padding: 14px 16px 16px; }
-  .card-brand { font-size: 10px; color: #444442; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
-  .card-name { font-size: 14px; color: #c8c6c0; font-weight: 500; margin-bottom: 10px; line-height: 1.3; }
+  .badge-sold { background: rgba(14,14,13,0.9); color: #555553; border: 1px solid #2a2a28; }
+  .multi-indicator { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); color: #aaa8a2; font-size: 9px; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); }
+  .placeholder-img { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #222220; }
+  .card-info { padding: 11px 13px 13px; }
+  .card-brand { font-size: 9px; color: #3a3a38; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
+  .card-name { font-size: 13px; color: #c8c6c0; font-weight: 500; margin-bottom: 10px; line-height: 1.3; }
   .card-bottom { display: flex; align-items: center; justify-content: space-between; }
-  .card-price { font-size: 16px; color: #e8e6e0; font-weight: 600; }
-  .card-price.sold { color: #333331; text-decoration: line-through; }
-  .card-size { font-size: 11px; color: #555553; background: #1a1a18; padding: 3px 10px; border-radius: 4px; letter-spacing: 0.04em; }
-  .placeholder-img { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #2a2a28; }
-  .loading-grid { padding: 5rem 2rem; text-align: center; color: #333331; font-size: 13px; letter-spacing: 0.04em; }
+  .card-price { font-size: 15px; color: #e8e6e0; font-weight: 700; }
+  .card-price.sold { color: #2a2a28; text-decoration: line-through; }
+  .card-size { font-size: 10px; color: #444442; background: #1e1e1c; padding: 3px 9px; border-radius: 5px; letter-spacing: 0.04em; border: 1px solid #222220; }
+  .loading-grid { padding: 5rem 2rem; text-align: center; color: #2a2a28; font-size: 12px; letter-spacing: 0.06em; }
 
   /* LIGHTBOX */
-  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 1000; }
-  .lightbox.open { display: flex; }
-  .lb-inner { display: flex; width: 100%; height: 100%; }
-  .lb-photos { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; background: #0a0a09; }
-  .lb-main-img { max-width: 100%; max-height: 100vh; object-fit: contain; }
-  .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.06); border: 1px solid #2a2a28; color: #e8e6e0; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: background 0.2s; z-index: 2; }
-  .lb-prev:hover, .lb-next:hover { background: rgba(255,255,255,0.12); }
-  .lb-prev { left: 16px; }
-  .lb-next { right: 16px; }
-  .lb-thumbs { display: flex; gap: 6px; position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); }
-  .lb-thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 4px; cursor: pointer; opacity: 0.45; transition: opacity 0.2s; border: 1px solid transparent; }
-  .lb-thumb.active { opacity: 1; border-color: #e8e6e0; }
-  .lb-sidebar { width: 340px; flex-shrink: 0; background: #0e0e0d; border-left: 1px solid #1c1c1a; display: flex; flex-direction: column; overflow-y: auto; }
-  .lb-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.06); border: 1px solid #2a2a28; color: #e8e6e0; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; z-index: 10; transition: background 0.2s; }
-  .lb-close:hover { background: rgba(255,255,255,0.12); }
-  .lb-details { padding: 2rem 1.5rem; flex: 1; }
-  .lb-brand { font-size: 11px; color: #444442; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
-  .lb-name { font-size: 22px; font-weight: 600; color: #e8e6e0; margin-bottom: 1rem; line-height: 1.2; letter-spacing: -0.01em; }
-  .lb-price { font-size: 28px; font-weight: 700; color: #e8e6e0; margin-bottom: 0.5rem; }
-  .lb-size { display: inline-block; font-size: 12px; color: #888886; background: #1a1a18; padding: 4px 12px; border-radius: 4px; margin-bottom: 1.5rem; }
-  .lb-desc { font-size: 13px; color: #666664; line-height: 1.7; margin-bottom: 2rem; border-top: 1px solid #1c1c1a; padding-top: 1.5rem; }
-  .lb-dm { display: block; width: 100%; background: #e8e6e0; color: #0e0e0d; border: none; border-radius: 8px; padding: 14px; font-size: 14px; font-weight: 600; text-align: center; text-decoration: none; cursor: pointer; transition: opacity 0.2s; margin-bottom: 10px; }
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.97); z-index: 1000; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .lightbox.open { display: block; }
+  .lb-inner { display: flex; min-height: 100vh; }
+  .lb-close { position: fixed; top: 14px; right: 14px; background: rgba(255,255,255,0.08); border: 1px solid #2a2a28; color: #e8e6e0; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; z-index: 10; transition: background 0.2s; }
+  .lb-close:hover { background: rgba(255,255,255,0.15); }
+
+  /* Photo side */
+  .lb-photos { flex: 1; background: #0a0a09; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; min-height: 50vh; overflow: hidden; }
+  .lb-carousel { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .lb-slides { display: flex; transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; height: 100%; }
+  .lb-slide { flex-shrink: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .lb-slide img { max-width: 100%; max-height: 70vh; object-fit: contain; }
+  .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: #e8e6e0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: background 0.2s; z-index: 2; }
+  .lb-prev:hover, .lb-next:hover { background: rgba(255,255,255,0.15); }
+  .lb-prev { left: 12px; }
+  .lb-next { right: 12px; }
+  .lb-dots { display: flex; gap: 6px; padding: 12px 0 8px; }
+  .lb-dot { width: 6px; height: 6px; border-radius: 50%; background: #2a2a28; transition: background 0.2s, transform 0.2s; cursor: pointer; }
+  .lb-dot.active { background: #e8e6e0; transform: scale(1.2); }
+
+  /* Details side */
+  .lb-sidebar { width: 320px; flex-shrink: 0; background: #0e0e0d; border-left: 1px solid #1e1e1c; display: flex; flex-direction: column; }
+  .lb-details { padding: 3rem 1.5rem 1.5rem; flex: 1; }
+  .lb-brand { font-size: 10px; color: #333331; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; }
+  .lb-name { font-size: 20px; font-weight: 600; color: #e8e6e0; margin-bottom: 1rem; line-height: 1.2; letter-spacing: -0.01em; }
+  .lb-price { font-size: 26px; font-weight: 700; color: #e8e6e0; margin-bottom: 6px; }
+  .lb-size { display: inline-block; font-size: 11px; color: #666664; background: #1a1a18; padding: 4px 12px; border-radius: 6px; margin-bottom: 1.5rem; border: 1px solid #222220; }
+  .lb-divider { border: none; border-top: 1px solid #1a1a18; margin-bottom: 1.5rem; }
+  .lb-desc { font-size: 13px; color: #555553; line-height: 1.7; margin-bottom: 2rem; }
+  .lb-dm { display: block; width: 100%; background: #e8e6e0; color: #0e0e0d; border: none; border-radius: 10px; padding: 14px; font-size: 14px; font-weight: 600; text-align: center; text-decoration: none; cursor: pointer; transition: opacity 0.2s; margin-bottom: 10px; }
   .lb-dm:hover { opacity: 0.88; }
-  .lb-sold-msg { text-align: center; font-size: 13px; color: #444442; padding: 14px; border: 1px solid #1c1c1a; border-radius: 8px; }
-  .lb-footer { padding: 1rem 1.5rem; border-top: 1px solid #1c1c1a; font-size: 11px; color: #333331; text-align: center; letter-spacing: 0.04em; }
+  .lb-sold-msg { text-align: center; font-size: 12px; color: #333331; padding: 14px; border: 1px solid #1e1e1c; border-radius: 10px; }
+  .lb-footer-note { padding: 1rem 1.5rem; border-top: 1px solid #1a1a18; font-size: 10px; color: #2a2a28; text-align: center; letter-spacing: 0.04em; }
 
   /* FOOTER */
-  footer { text-align: center; padding: 3rem 2rem; color: #2a2a28; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-top: 1px solid #1a1a18; margin-top: 2px; }
+  footer { text-align: center; padding: 2.5rem 2rem; color: #222220; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; border-top: 1px solid #1a1a18; margin-top: 12px; }
 
-  @media (max-width: 640px) {
-    .lb-inner { flex-direction: column; }
-    .lb-sidebar { width: 100%; border-left: none; border-top: 1px solid #1c1c1a; max-height: 50vh; }
-    .lb-photos { min-height: 50vh; }
+  /* ANIMATIONS */
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+  /* MOBILE */
+  @media (max-width: 700px) {
     nav { padding: 0 1rem; }
-    .hero { padding: 3rem 1.25rem 2.5rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links a { font-size: 11px; }
+    .hero { padding: 2.5rem 1.25rem 2.5rem; }
     .hero h1 { font-size: 28px; }
-    .grid { margin: 0 1px; }
-    .filter-bar { padding: 1rem 1.25rem; }
-    .section-header { padding: 1.25rem 1.25rem 0.75rem; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .grid-wrap { padding: 0 0.75rem 0.75rem; }
+    .filter-bar { padding: 0.75rem 1rem; gap: 6px; }
+    .section-header { padding: 1rem 1rem 0.5rem; }
+
+    /* Mobile lightbox — full screen stacked */
+    .lb-inner { flex-direction: column; min-height: 100vh; }
+    .lb-photos { min-height: 55vw; height: 55vw; width: 100%; }
+    .lb-slide img { max-height: 55vw; }
+    .lb-sidebar { width: 100%; border-left: none; border-top: 1px solid #1e1e1c; }
+    .lb-details { padding: 1.25rem 1.25rem 1rem; }
+    .lb-name { font-size: 17px; }
+    .lb-price { font-size: 22px; }
+    .lb-prev { left: 8px; width: 34px; height: 34px; font-size: 15px; }
+    .lb-next { right: 8px; width: 34px; height: 34px; font-size: 15px; }
+  }
+
+  @media (max-width: 400px) {
+    .hero h1 { font-size: 24px; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .grid-wrap { padding: 0 0.5rem 0.5rem; }
   }
 </style>
 </head>
@@ -120,44 +153,48 @@
 
 <div class="hero">
   <div class="hero-tag">Victoria, BC · Local Pickup Only</div>
-  <h1>Fresh fits.<br><span>Local only.</span></h1>
-  <p>Streetwear, kakobuy, and designer pieces. Cash or e-transfer. DM to cop.</p>
+  <h1>1:1 Reps &<br><em>Streetwear.</em></h1>
+  <p>Designer pieces, vintage finds, and premium reps. Cash or e-transfer. DM to buy or ask questions.</p>
   <div class="hero-btns">
     <a class="btn-primary" href="https://www.instagram.com/altaccount232026/" target="_blank">DM on Instagram</a>
-    <a class="btn-secondary" href="#" onclick="document.querySelector('.filter-bar').scrollIntoView();return false;">Browse drops</a>
+    <button class="btn-secondary" onclick="document.querySelector('.filter-bar').scrollIntoView({behavior:'smooth'})">Latest Releases</button>
   </div>
 </div>
 
 <div class="filter-bar">
   <span class="filter-label">Filter</span>
-  <button class="filter-btn active" onclick="filterItems('all')" id="fbtn-all">All drops</button>
+  <button class="filter-btn active" onclick="filterItems('all')" id="fbtn-all">All</button>
   <button class="filter-btn" onclick="filterItems('shirts')" id="fbtn-shirts">Shirts</button>
   <button class="filter-btn" onclick="filterItems('hoodies')" id="fbtn-hoodies">Hoodies</button>
   <button class="filter-btn" onclick="filterItems('shorts')" id="fbtn-shorts">Shorts</button>
   <button class="filter-btn" onclick="filterItems('belts')" id="fbtn-belts">Belts</button>
-  <button class="filter-btn" onclick="filterItems('kakobuy')" id="fbtn-kakobuy">Kakobuy</button>
+  <button class="filter-btn" onclick="filterItems('other')" id="fbtn-other">Other</button>
 </div>
 
 <div class="section-header">
-  <span class="section-title">Latest drops</span>
+  <span class="section-title">Latest Releases</span>
   <span class="item-count" id="item-count"></span>
 </div>
 
-<div class="grid" id="items-grid">
-  <div class="loading-grid">Loading drops...</div>
+<div class="grid-wrap">
+  <div class="grid" id="items-grid">
+    <div class="loading-grid">Loading...</div>
+  </div>
 </div>
 
 <footer>Vic Local · Victoria BC · Cash & E-transfer · Local pickup only</footer>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
+<div class="lightbox" id="lightbox">
   <div class="lb-inner">
     <div class="lb-photos" id="lb-photos">
       <div class="lb-close" onclick="closeLightbox()">✕</div>
-      <img class="lb-main-img" id="lb-main-img" src="" alt="">
-      <div class="lb-prev" id="lb-prev" onclick="changePhoto(-1)">‹</div>
-      <div class="lb-next" id="lb-next" onclick="changePhoto(1)">›</div>
-      <div class="lb-thumbs" id="lb-thumbs"></div>
+      <div class="lb-carousel">
+        <div class="lb-slides" id="lb-slides"></div>
+        <div class="lb-prev" id="lb-prev" onclick="changePhoto(-1)">‹</div>
+        <div class="lb-next" id="lb-next" onclick="changePhoto(1)">›</div>
+      </div>
+      <div class="lb-dots" id="lb-dots"></div>
     </div>
     <div class="lb-sidebar">
       <div class="lb-details">
@@ -165,161 +202,175 @@
         <div class="lb-name" id="lb-name"></div>
         <div class="lb-price" id="lb-price"></div>
         <div class="lb-size" id="lb-size"></div>
+        <hr class="lb-divider">
         <div class="lb-desc" id="lb-desc"></div>
         <div id="lb-action"></div>
       </div>
-      <div class="lb-footer">Victoria BC · Local pickup only · Cash or e-transfer</div>
+      <div class="lb-footer-note">Victoria BC · Local pickup only · Cash or e-transfer</div>
     </div>
   </div>
 </div>
 
 <script>
-  var SUPABASE_URL = 'https://uyuyerbyjelelkshmmpn.supabase.co';
-  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dXllcmJ5amVsZWxrc2htbXBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzNTI2NTgsImV4cCI6MjA5NTkyODY1OH0.zM93TUtb3ZUF9PP5R_4ZA9ke0FcYXJaim4W1t7OfnYE';
-  var allItems = [];
-  var currentPhotos = [];
-  var currentPhotoIdx = 0;
+var SUPABASE_URL = 'https://uyuyerbyjelelkshmmpn.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dXllcmJ5amVsZWxrc2htbXBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzNTI2NTgsImV4cCI6MjA5NTkyODY1OH0.zM93TUtb3ZUF9PP5R_4ZA9ke0FcYXJaim4W1t7OfnYE';
+var allItems = [];
+var currentPhotos = [];
+var currentPhotoIdx = 0;
+var filteredItems = [];
 
-  function hdrs() {
-    return {
-      'apikey': SUPABASE_KEY,
-      'Authorization': 'Bearer ' + SUPABASE_KEY,
-      'Accept-Profile': 'public'
-    };
+function hdrs() {
+  return { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Accept-Profile': 'public' };
+}
+
+async function loadItems() {
+  try {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/items?select=*&order=id.desc', { headers: hdrs() });
+    allItems = await res.json();
+    if (!Array.isArray(allItems)) allItems = [];
+    filteredItems = allItems;
+    renderItems(allItems);
+  } catch(e) {
+    document.getElementById('items-grid').innerHTML = '<div class="loading-grid">Could not load. Try refreshing.</div>';
   }
+}
 
-  async function loadItems() {
-    try {
-      var res = await fetch(SUPABASE_URL + '/rest/v1/items?select=*&order=id.desc', { headers: hdrs() });
-      allItems = await res.json();
-      if (!Array.isArray(allItems)) allItems = [];
-      renderItems(allItems);
-    } catch(e) {
-      document.getElementById('items-grid').innerHTML = '<div class="loading-grid">Could not load items. Try refreshing.</div>';
-    }
+function filterItems(cat) {
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.nav-links a').forEach(function(a){ a.classList.remove('active'); });
+  var fb = document.getElementById('fbtn-' + cat);
+  var fn = document.getElementById('fnav-' + cat);
+  if(fb) fb.classList.add('active');
+  if(fn) fn.classList.add('active');
+  filteredItems = cat === 'all' ? allItems : allItems.filter(function(i){ return i.category && i.category.toLowerCase() === cat; });
+  renderItems(filteredItems);
+}
+
+function getPhotos(item) {
+  if (item.images) return item.images.split(',').map(function(u){ return u.trim(); }).filter(Boolean);
+  if (item.image_url) return [item.image_url];
+  return [];
+}
+
+function renderItems(items) {
+  var grid = document.getElementById('items-grid');
+  var count = document.getElementById('item-count');
+  if (!items || items.length === 0) {
+    grid.innerHTML = '<div class="loading-grid" style="grid-column:1/-1">No items yet — check back soon.</div>';
+    count.textContent = '';
+    return;
   }
-
-  function filterItems(cat) {
-    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
-    document.querySelectorAll('.nav-links a').forEach(function(a){ a.classList.remove('active'); });
-    var fb = document.getElementById('fbtn-' + cat);
-    var fn = document.getElementById('fnav-' + cat);
-    if(fb) fb.classList.add('active');
-    if(fn) fn.classList.add('active');
-    var filtered = cat === 'all' ? allItems : allItems.filter(function(i){ return i.category && i.category.toLowerCase() === cat; });
-    renderItems(filtered);
-  }
-
-  function getPhotos(item) {
-    if (item.images) {
-      return item.images.split(',').map(function(u){ return u.trim(); }).filter(Boolean);
-    }
-    if (item.image_url) return [item.image_url];
-    return [];
-  }
-
-  function renderItems(items) {
-    var grid = document.getElementById('items-grid');
-    var count = document.getElementById('item-count');
-    if (!items || items.length === 0) {
-      grid.innerHTML = '<div class="loading-grid">No drops yet — check back soon.</div>';
-      count.textContent = '';
-      return;
-    }
-    count.textContent = items.length + ' item' + (items.length !== 1 ? 's' : '');
-    grid.innerHTML = items.map(function(item, idx) {
-      var photos = getPhotos(item);
-      var firstPhoto = photos[0] || '';
-      return '<div class="card" onclick="openLightbox(' + idx + ')">' +
-        '<div class="card-img">' +
-          (firstPhoto ? '<img src="' + firstPhoto + '" alt="' + (item.name||'') + '" loading="lazy">' : '<div class="placeholder-img"><svg width="40" height="40" fill="none" stroke="#2a2a28" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div>') +
-          (item.sold ? '<div class="badge badge-sold">Sold</div>' : (item.is_new ? '<div class="badge badge-new">New</div>' : '')) +
-          (photos.length > 1 ? '<div class="multi-badge">1 / ' + photos.length + '</div>' : '') +
+  count.textContent = items.length + ' item' + (items.length !== 1 ? 's' : '');
+  grid.innerHTML = items.map(function(item, idx) {
+    var photos = getPhotos(item);
+    var firstPhoto = photos[0] || '';
+    return '<div class="card" onclick="openLightbox(' + idx + ')">' +
+      '<div class="card-img">' +
+        (firstPhoto ? '<img src="' + firstPhoto + '" alt="' + (item.name||'') + '" loading="lazy">' : '<div class="placeholder-img"><svg width="32" height="32" fill="none" stroke="#2a2a28" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div>') +
+        (item.sold ? '<div class="badge badge-sold">Sold</div>' : (item.is_new ? '<div class="badge badge-new">New</div>' : '')) +
+        (photos.length > 1 ? '<div class="multi-indicator">' + photos.length + ' photos</div>' : '') +
+      '</div>' +
+      '<div class="card-info">' +
+        '<div class="card-brand">' + (item.brand||'') + '</div>' +
+        '<div class="card-name">' + (item.name||'') + '</div>' +
+        '<div class="card-bottom">' +
+          '<span class="card-price' + (item.sold?' sold':'') + '">$' + item.price + '</span>' +
+          '<span class="card-size">' + (item.size||'') + '</span>' +
         '</div>' +
-        '<div class="card-info">' +
-          '<div class="card-brand">' + (item.brand||'') + '</div>' +
-          '<div class="card-name">' + (item.name||'') + '</div>' +
-          '<div class="card-bottom">' +
-            '<span class="card-price' + (item.sold?' sold':'') + '">$' + item.price + '</span>' +
-            '<span class="card-size">' + (item.size||'') + '</span>' +
-          '</div>' +
-        '</div></div>';
-    }).join('');
-  }
+      '</div></div>';
+  }).join('');
 
-  function openLightbox(idx) {
-    var filtered = getCurrentFiltered();
-    var item = filtered[idx];
-    if (!item) return;
-    currentPhotos = getPhotos(item);
-    currentPhotoIdx = 0;
-    document.getElementById('lb-brand').textContent = item.brand || '';
-    document.getElementById('lb-name').textContent = item.name || '';
-    document.getElementById('lb-price').textContent = '$' + item.price;
-    document.getElementById('lb-size').textContent = 'Size ' + (item.size||'One size');
-    document.getElementById('lb-desc').textContent = item.description || '';
-    document.getElementById('lb-action').innerHTML = item.sold
-      ? '<div class="lb-sold-msg">This item has been sold</div>'
-      : '<a class="lb-dm" href="https://www.instagram.com/altaccount232026/" target="_blank">DM to buy → @altaccount232026</a>';
-    updateLightboxPhoto();
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function updateLightboxPhoto() {
-    var img = document.getElementById('lb-main-img');
-    var thumbs = document.getElementById('lb-thumbs');
-    var prev = document.getElementById('lb-prev');
-    var next = document.getElementById('lb-next');
-    if (currentPhotos.length === 0) {
-      img.src = '';
-      thumbs.innerHTML = '';
-      prev.style.display = 'none';
-      next.style.display = 'none';
-      return;
-    }
-    img.src = currentPhotos[currentPhotoIdx];
-    prev.style.display = currentPhotos.length > 1 ? 'flex' : 'none';
-    next.style.display = currentPhotos.length > 1 ? 'flex' : 'none';
-    thumbs.innerHTML = currentPhotos.map(function(url, i) {
-      return '<img class="lb-thumb' + (i === currentPhotoIdx ? ' active' : '') + '" src="' + url + '" onclick="setPhoto(' + i + ')" alt="">';
-    }).join('');
-  }
-
-  function setPhoto(idx) {
-    currentPhotoIdx = idx;
-    updateLightboxPhoto();
-  }
-
-  function changePhoto(dir) {
-    currentPhotoIdx = (currentPhotoIdx + dir + currentPhotos.length) % currentPhotos.length;
-    updateLightboxPhoto();
-  }
-
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function closeLightboxOnBg(e) {
-    if (e.target === document.getElementById('lightbox')) closeLightbox();
-  }
-
-  function getCurrentFiltered() {
-    var active = document.querySelector('.filter-btn.active');
-    if (!active) return allItems;
-    var cat = active.id.replace('fbtn-', '');
-    return cat === 'all' ? allItems : allItems.filter(function(i){ return i.category && i.category.toLowerCase() === cat; });
-  }
-
-  document.addEventListener('keydown', function(e) {
-    if (!document.getElementById('lightbox').classList.contains('open')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') changePhoto(-1);
-    if (e.key === 'ArrowRight') changePhoto(1);
+  // Animate cards in with stagger
+  var cards = grid.querySelectorAll('.card');
+  cards.forEach(function(card, i) {
+    setTimeout(function() { card.classList.add('visible'); }, i * 60);
   });
+}
 
-  loadItems();
+function openLightbox(idx) {
+  var item = filteredItems[idx];
+  if (!item) return;
+  currentPhotos = getPhotos(item);
+  currentPhotoIdx = 0;
+  document.getElementById('lb-brand').textContent = item.brand || '';
+  document.getElementById('lb-name').textContent = item.name || '';
+  document.getElementById('lb-price').textContent = '$' + item.price;
+  document.getElementById('lb-size').textContent = 'Size ' + (item.size || 'One size');
+  document.getElementById('lb-desc').textContent = item.description || '';
+  document.getElementById('lb-action').innerHTML = item.sold
+    ? '<div class="lb-sold-msg">This item has been sold</div>'
+    : '<a class="lb-dm" href="https://www.instagram.com/altaccount232026/" target="_blank">DM to buy or ask questions</a>';
+
+  // Build slides
+  var slides = document.getElementById('lb-slides');
+  var dots = document.getElementById('lb-dots');
+  if (currentPhotos.length > 0) {
+    slides.innerHTML = currentPhotos.map(function(url) {
+      return '<div class="lb-slide"><img src="' + url + '" alt=""></div>';
+    }).join('');
+    dots.innerHTML = currentPhotos.map(function(_, i) {
+      return '<div class="lb-dot' + (i===0?' active':'') + '" onclick="setPhoto(' + i + ')"></div>';
+    }).join('');
+  } else {
+    slides.innerHTML = '<div class="lb-slide"><div style="color:#333;font-size:13px;">No photo</div></div>';
+    dots.innerHTML = '';
+  }
+
+  updateSlides();
+  var prev = document.getElementById('lb-prev');
+  var next = document.getElementById('lb-next');
+  prev.style.display = currentPhotos.length > 1 ? 'flex' : 'none';
+  next.style.display = currentPhotos.length > 1 ? 'flex' : 'none';
+
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function updateSlides() {
+  var slides = document.getElementById('lb-slides');
+  slides.style.transform = 'translateX(-' + (currentPhotoIdx * 100) + '%)';
+  var dots = document.querySelectorAll('.lb-dot');
+  dots.forEach(function(d, i) { d.classList.toggle('active', i === currentPhotoIdx); });
+}
+
+function setPhoto(idx) {
+  currentPhotoIdx = idx;
+  updateSlides();
+}
+
+function changePhoto(dir) {
+  currentPhotoIdx = (currentPhotoIdx + dir + currentPhotos.length) % currentPhotos.length;
+  updateSlides();
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Touch swipe for lightbox
+var touchStartX = 0;
+document.getElementById('lightbox').addEventListener('touchstart', function(e) {
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+document.getElementById('lightbox').addEventListener('touchend', function(e) {
+  var diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50 && currentPhotos.length > 1) changePhoto(diff > 0 ? 1 : -1);
+}, { passive: true });
+
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') changePhoto(-1);
+  if (e.key === 'ArrowRight') changePhoto(1);
+});
+
+// Close lightbox on background click (not sidebar)
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+
+loadItems();
 </script>
 </body>
 </html>

@@ -181,10 +181,10 @@ footer { text-align: center; padding: 2rem; color: #1a1a18; font-size: 9px; lett
   /* Sticky top bar */
   .lb-topbar { display: flex !important; align-items: center; height: 50px; min-height: 50px; background: #0e0e0d; border-bottom: 1px solid #1a1a18; padding: 0 1rem; flex-shrink: 0; position: -webkit-sticky; position: sticky; top: 0; z-index: 5; }
   .lb-close { display: none !important; }
-  /* 4:3 photo container */
+  /* 4:3 photo container — BIG like Facebook, fills most of screen */
   .lb-photos { flex-shrink: 0; width: 100%; height: auto; min-height: unset; background: #111; }
-  .lb-carousel-wrap { height: 75vw; }
-  .lb-slide { padding: 0; height: 75vw; cursor: pointer; }
+  .lb-carousel-wrap { height: calc(100vh - 140px); max-height: 100vw; }
+  .lb-slide { padding: 0; height: calc(100vh - 140px); max-height: 100vw; cursor: pointer; }
   .lb-slide img { width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
   .lb-dots { padding: 10px 0 6px; background: #0e0e0d; }
   /* View full photo hint */
@@ -524,6 +524,18 @@ function openFullscreen() {
   document.getElementById('fullscreen-viewer').classList.add('open');
 }
 function closeFullscreen() { document.getElementById('fullscreen-viewer').classList.remove('open'); }
+
+// Fullscreen swipe between photos
+var fsStartX = 0;
+var fsViewer = document.getElementById('fullscreen-viewer');
+fsViewer.addEventListener('touchstart', function(e){ fsStartX = e.touches[0].clientX; }, {passive:true});
+fsViewer.addEventListener('touchend', function(e){
+  var dx = fsStartX - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 40 && currentPhotos.length > 1) {
+    changePhoto(dx > 0 ? 1 : -1);
+    setTimeout(function(){ document.getElementById('fullscreen-img').src = currentPhotos[currentPhotoIdx]; }, 350);
+  }
+}, {passive:true});
 
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow=''; isAnimating=false; }
 

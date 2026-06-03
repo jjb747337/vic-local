@@ -98,32 +98,34 @@ nav { background: rgba(14,14,13,0.97); backdrop-filter: blur(20px); -webkit-back
 /* LIGHTBOX */
 .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; align-items: center; justify-content: center; }
 .lightbox.open { display: flex; }
-.lb-inner { display: flex; width: 100%; max-width: 1200px; height: 90vh; border-radius: 16px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.7); }
+.lb-inner { display: flex; width: 100%; max-width: 1160px; height: 88vh; border-radius: 16px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.7); position: relative; }
 
-/* Photo */
-.lb-photos { flex: 1; background: #080807; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; min-width: 0; }
+/* Desktop photo */
+.lb-photos { flex: 1; background: #090908; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; min-width: 0; }
 .lb-carousel-wrap { width: 100%; flex: 1; overflow: hidden; position: relative; display: flex; align-items: center; }
 .lb-slides { display: flex; height: 100%; will-change: transform; transition: transform 0.34s cubic-bezier(0.4,0,0.2,1); }
 .lb-slides.no-anim { transition: none; }
-.lb-slide { flex-shrink: 0; width: 100%; display: flex; align-items: center; justify-content: center; padding: 2rem; }
-.lb-slide img { max-width: 100%; max-height: calc(90vh - 60px); object-fit: contain; border-radius: 6px; }
-.lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.08); color: #d8d6d0; width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 22px; transition: background 0.18s; z-index: 2; user-select: none; }
-.lb-prev:hover, .lb-next:hover { background: rgba(255,255,255,0.14); }
-.lb-prev:active, .lb-next:active { background: rgba(255,255,255,0.2); }
-.lb-prev { left: 16px; }
-.lb-next { right: 16px; }
-.lb-dots { display: flex; gap: 8px; padding: 14px 0 10px; }
+.lb-slide { flex-shrink: 0; width: 100%; display: flex; align-items: center; justify-content: center; padding: 2.5rem; }
+.lb-slide img { max-width: 100%; max-height: calc(88vh - 60px); object-fit: contain; border-radius: 6px; }
+
+/* Desktop arrows — OUTSIDE photo, on the dark overlay */
+.lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(30,30,28,0.8); border: 1px solid #2a2a28; color: #d8d6d0; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 22px; transition: background 0.18s; z-index: 5; user-select: none; }
+.lb-prev:hover, .lb-next:hover { background: rgba(40,40,38,0.95); }
+.lb-prev { left: -58px; }
+.lb-next { right: -58px; }
+.lb-dots { display: flex; gap: 8px; padding: 12px 0 8px; }
 .lb-dot { width: 5px; height: 5px; border-radius: 50%; background: #1c1c1a; transition: background 0.22s, transform 0.22s; cursor: pointer; }
 .lb-dot.active { background: #d8d6d0; transform: scale(1.4); }
 
-/* Sidebar — fixed width so it doesn't stretch on big screens */
+/* Desktop sidebar */
 .lb-sidebar { width: 320px; flex-shrink: 0; background: #0e0e0d; border-left: 1px solid #1c1c1a; display: flex; flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-.lb-close { position: fixed; top: calc(5vh + 12px); right: calc(50% - 600px + 12px); background: rgba(20,20,19,0.95); border: 1px solid #1c1c1a; color: #888886; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; z-index: 10; transition: all 0.18s; }
+.lb-close { position: absolute; top: 12px; right: 12px; background: rgba(20,20,19,0.9); border: 1px solid #1c1c1a; color: #888886; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px; z-index: 10; transition: all 0.18s; }
 .lb-close:hover { background: #1a1a18; color: #d8d6d0; }
+.lb-topbar { display: none; }
 .lb-details { padding: 2rem 1.5rem 1.5rem; flex: 1; }
 .lb-brand { font-size: 9px; color: #2a2a28; text-transform: uppercase; letter-spacing: 0.16em; margin-bottom: 8px; font-weight: 600; }
-.lb-name { font-size: 21px; font-weight: 700; color: #e8e6e0; margin-bottom: 0.6rem; line-height: 1.2; }
-.lb-price { font-size: 30px; font-weight: 800; color: #e8e6e0; margin-bottom: 1.25rem; letter-spacing: -0.02em; }
+.lb-name { font-size: 20px; font-weight: 700; color: #e8e6e0; margin-bottom: 0.6rem; line-height: 1.2; }
+.lb-price { font-size: 28px; font-weight: 800; color: #e8e6e0; margin-bottom: 1.25rem; letter-spacing: -0.02em; }
 .lb-divider { border: none; border-top: 1px solid #141413; margin-bottom: 1.25rem; }
 .lb-size-label { font-size: 10px; color: #555553; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 9px; font-weight: 600; }
 .lb-sizes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
@@ -179,28 +181,26 @@ footer { text-align: center; padding: 2rem; color: #1a1a18; font-size: 9px; lett
   .card-price { font-size: 18px; }
   .card-brand { font-size: 10px; }
 
-  /* Mobile lightbox — Facebook Marketplace style */
-  .lightbox { align-items: flex-end; justify-content: center; background: #000; }
-  .lb-inner { flex-direction: column; width: 100%; max-width: 100%; height: 100vh; border-radius: 0; box-shadow: none; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-  /* Top bar */
-  .lb-topbar { display: flex !important; align-items: center; height: 48px; background: #0e0e0d; border-bottom: 1px solid #1a1a18; padding: 0 1rem; flex-shrink: 0; }
-  .lb-close { position: static; background: transparent; border: none; color: #888886; width: 32px; height: 32px; font-size: 20px; }
-  .lb-topbar-title { font-size: 14px; font-weight: 600; color: #c8c6c0; margin-left: 10px; }
-  /* Photo full width */
-  .lb-photos { flex-shrink: 0; height: 100vw; background: #000; }
-  .lb-carousel-wrap { height: 100%; }
-  .lb-slide { padding: 0; height: 100%; }
-  .lb-slide img { width: 100%; height: 100%; max-height: 100%; object-fit: cover; border-radius: 0; }
-  /* Info scrolls below */
-  .lb-sidebar { width: 100%; border-left: none; border-top: 1px solid #1a1a18; overflow-y: visible; flex: 1; }
-  .lb-details { padding: 1.1rem 1.25rem 1.5rem; }
+
+  /* Mobile lightbox — clean, scrollable, Safari-safe */
+  .lightbox { align-items: stretch; justify-content: stretch; }
+  .lb-inner { flex-direction: column; width: 100%; max-width: 100%; height: 100%; border-radius: 0; box-shadow: none; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+  .lb-topbar { display: flex !important; align-items: center; height: 50px; min-height: 50px; background: #0e0e0d; border-bottom: 1px solid #1c1c1a; padding: 0 1rem; flex-shrink: 0; position: -webkit-sticky; position: sticky; top: 0; z-index: 5; }
+  .lb-close { display: none !important; }
+  .lb-photos { flex-shrink: 0; width: 100%; background: #000; height: auto; min-height: unset; }
+  .lb-carousel-wrap { height: 100vw; }
+  .lb-slide { padding: 0; height: 100vw; }
+  .lb-slide img { width: 100%; height: 100%; max-height: 100vw; object-fit: contain; border-radius: 0; background: #000; }
+  .lb-dots { padding: 10px 0 6px; }
+  .lb-sidebar { width: 100%; border-left: none; border-top: 1px solid #1c1c1a; overflow-y: visible; flex-shrink: 0; }
+  .lb-details { padding: 1.25rem 1.25rem 2rem; }
   .lb-name { font-size: 20px; margin-bottom: 0.4rem; }
-  .lb-price { font-size: 28px; margin-bottom: 0.875rem; }
+  .lb-price { font-size: 28px; margin-bottom: 1rem; }
   .lb-desc { font-size: 13px; color: #777775; margin-bottom: 1.25rem; }
   .lb-dm-btn { padding: 16px; font-size: 15px; }
-  .lb-prev { left: 10px; width: 36px; height: 36px; font-size: 17px; }
-  .lb-next { right: 10px; width: 36px; height: 36px; font-size: 17px; }
   .lb-footer-note { display: none; }
+  .lb-prev { left: 8px; width: 34px; height: 34px; font-size: 16px; background: rgba(0,0,0,0.45); border-color: transparent; }
+  .lb-next { right: 8px; width: 34px; height: 34px; font-size: 16px; background: rgba(0,0,0,0.45); border-color: transparent; }
 }
 
 @media (max-width: 390px) {

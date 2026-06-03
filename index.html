@@ -106,7 +106,7 @@ nav { background: rgba(14,14,13,0.97); backdrop-filter: blur(20px); -webkit-back
 .lb-slides { display: flex; height: 100%; will-change: transform; }
 .lb-slides.animating { transition: transform 0.36s cubic-bezier(0.4,0,0.2,1); }
 .lb-slide { flex-shrink: 0; width: 100%; display: flex; align-items: center; justify-content: center; padding: 2.5rem; }
-.lb-slide img { max-width: 100%; max-height: calc(100vh - 80px); object-fit: contain; border-radius: 8px; }
+.lb-slide img { max-width: 100%; max-height: calc(100vh - 50px); object-fit: contain; border-radius: 6px; }
 .lb-prev, .lb-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.08); color: #d8d6d0; width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 22px; transition: background 0.18s; z-index: 2; user-select: none; }
 .lb-prev:hover, .lb-next:hover { background: rgba(255,255,255,0.14); }
 .lb-prev:active, .lb-next:active { background: rgba(255,255,255,0.2); }
@@ -117,7 +117,7 @@ nav { background: rgba(14,14,13,0.97); backdrop-filter: blur(20px); -webkit-back
 .lb-dot.active { background: #d8d6d0; transform: scale(1.4); }
 
 /* Sidebar */
-.lb-sidebar { width: 340px; flex-shrink: 0; background: #0e0e0d; border-left: 1px solid #1c1c1a; display: flex; flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.lb-sidebar { width: 300px; flex-shrink: 0; background: #0e0e0d; border-left: 1px solid #1c1c1a; display: flex; flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .lb-close { position: fixed; top: 14px; right: 14px; background: rgba(20,20,19,0.95); border: 1px solid #1c1c1a; color: #888886; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; z-index: 10; transition: all 0.18s; }
 .lb-close:hover { background: #1a1a18; color: #d8d6d0; }
 .lb-details { padding: 2rem 1.5rem 1.5rem; flex: 1; }
@@ -495,30 +495,50 @@ function setPhoto(idx) { currentPhotoIdx = idx; updateSlides(true); }
 function changePhoto(dir) {
   if (currentPhotos.length < 2) return;
   var slides = document.getElementById('lb-slides');
-  if (dir === 1 && currentPhotoIdx === currentPhotos.length - 1) {
-    // Forward wrap: slide forward past last, then jump to first
+  var n = currentPhotos.length;
+
+  if (dir === 1 && currentPhotoIdx === n - 1) {
+    // At last photo, going right — clone first slide, animate forward, then snap
+    var clone = slides.children[0].cloneNode(true);
+    slides.appendChild(clone);
     slides.classList.add('animating');
-    var extraSlide = document.createElement('div');
-    extraSlide.className = 'lb-slide';
-    extraSlide.innerHTML = '<img src="' + currentPhotos[0] + '" alt="">';
-    slides.appendChild(extraSlide);
-    slides.style.transform = 'translateX(-' + ((currentPhotoIdx + 1) * 100) + '%)';
+    slides.style.transform = 'translateX(-' + (n * 100) + '%)';
     setTimeout(function(){
       slides.classList.remove('animating');
+      slides.removeChild(clone);
       currentPhotoIdx = 0;
-      slides.innerHTML = currentPhotos.map(function(url){ return '<div class="lb-slide"><img src="' + url + '" alt=""></div>'; }).join('');
       slides.style.transition = 'none';
       slides.style.transform = 'translateX(0)';
-      document.querySelectorAll('.lb-dot').forEach(function(d, i){ d.classList.toggle('active', i === 0); });
+      document.querySelectorAll('.lb-dot').forEach(function(d,i){ d.classList.toggle('active', i===0); });
+      setTimeout(function(){ slides.style.transition = ''; }, 20);
     }, 370);
-  } else if (dir === -1 && currentPhotoIdx === 0) {
-    // Back wrap: go to last
-    currentPhotoIdx = currentPhotos.length - 1;
-    updateSlides(true);
-  } else {
-    currentPhotoIdx += dir;
-    updateSlides(true);
+    return;
   }
+
+  if (dir === -1 && currentPhotoIdx === 0) {
+    // At first photo, going left — clone last slide, prepend, animate backward, then snap
+    var clone = slides.children[n-1].cloneNode(true);
+    slides.insertBefore(clone, slides.firstChild);
+    slides.style.transition = 'none';
+    slides.style.transform = 'translateX(-100%)';
+    setTimeout(function(){
+      slides.classList.add('animating');
+      slides.style.transform = 'translateX(0)';
+      setTimeout(function(){
+        slides.classList.remove('animating');
+        slides.removeChild(clone);
+        currentPhotoIdx = n - 1;
+        slides.style.transition = 'none';
+        slides.style.transform = 'translateX(-' + ((n-1) * 100) + '%)';
+        document.querySelectorAll('.lb-dot').forEach(function(d,i){ d.classList.toggle('active', i===n-1); });
+        setTimeout(function(){ slides.style.transition = ''; }, 20);
+      }, 370);
+    }, 10);
+    return;
+  }
+
+  currentPhotoIdx += dir;
+  updateSlides(true);
 }
 
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }

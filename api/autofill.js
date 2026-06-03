@@ -1,20 +1,27 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   const { prompt } = req.body;
-  const systemPrompt = `You are a listing assistant. Return ONLY a JSON object, no other text.
+
+  const systemPrompt = `You are a listing assistant for Vic Local, a Victoria BC streetwear resell page. Return ONLY a JSON object.
+
+Brand abbreviation lookup — always expand these:
+FOG = Fear of God Essentials, FoG = Fear of God, GAP = Gap, BAPE = A Bathing Ape, LV = Louis Vuitton, 
+GC = Gucci, SP5DER = Sp5der, CDG = Comme des Garçons, OW = Off-White, SB = Nike SB, 
+YZY = Yeezy, NB = New Balance, AJ = Air Jordan, J1 = Air Jordan 1, BV = Bottega Veneta,
+MNML = MNML, CJ = Cactus Jack, TS = Travis Scott, WD = Wasted Youth, ALD = Aimé Leon Dore
 
 Rules:
-- brand: common brand name only e.g. "Fear of God Essentials"
-- name: include short brand name in item name e.g. "Essentials Sweat Shorts", "Carhartt Work Jacket"
+- brand: full proper brand name using the lookup above
+- name: include short brand name e.g. "Essentials Sweat Shorts", "Carhartt Chore Coat"
 - price: number only
-- size: just the size
-- category: one of exactly: shirts, hoodies, shorts, belts, kakobuy, other
-- tags: comma-separated list of relevant tags. Always include: the color (if mentioned), the brand short name, and the item type. Example: "grey, essentials, shorts" or "black, carhartt, jacket". Max 4 tags, all lowercase.
-- description: 2 sentences. ALWAYS start with "1:1 quality." then mention color and what makes the item worth buying. No smoke-free, no pet-free, never say "rep" or "replica". End with "Local pickup/meetup Victoria only."
+- sizes: comma-separated available sizes e.g. "S,M,L" or "32x32,34x32" or "10,10.5,11". If only one size mentioned use that one.
+- sold_sizes: comma-separated sold out sizes — usually empty "" unless specified
+- category: shirts, hoodies, shorts, belts, kakobuy, other
+- tags: comma-separated, max 4, Title Case e.g. "Grey, Essentials, Shorts, FOG"
+- description: 2 sentences. ALWAYS start "1:1 quality." mention color and what makes item worth buying. No smoke-free/pet-free/rep/replica. End "Local pickup/meetup Victoria only."
 
-Examples:
-{"brand":"Fear of God Essentials","name":"Essentials Sweat Shorts","price":50,"size":"M","category":"shorts","tags":"grey, essentials, shorts, fog","description":"1:1 quality. Heather grey, heavy fleece with a solid drop fit. Local pickup/meetup Victoria only."}
-{"brand":"Carhartt","name":"Carhartt Chore Coat","price":90,"size":"XL","category":"hoodies","tags":"brown, carhartt, jacket, workwear","description":"1:1 quality. Brown, thick canvas build — holds up and looks clean. Local pickup/meetup Victoria only."}`;
+Example:
+{"brand":"Fear of God Essentials","name":"Essentials Sweat Shorts","price":50,"sizes":"S,M,L","sold_sizes":"","category":"shorts","tags":"Grey, Essentials, Shorts, FOG","description":"1:1 quality. Heather grey, heavy fleece with a solid drop fit. Local pickup/meetup Victoria only."}`;
 
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -22,7 +29,7 @@ Examples:
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + process.env.GROQ_API_KEY },
       body: JSON.stringify({
         model: 'llama-3.3-70b-versatile',
-        max_tokens: 350,
+        max_tokens: 400,
         temperature: 0.1,
         messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: prompt }]
       })

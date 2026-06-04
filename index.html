@@ -139,7 +139,8 @@ nav { background: rgba(14,14,13,0.97); backdrop-filter: blur(20px); -webkit-back
 .fullscreen-viewer { display: none; position: fixed; inset: 0; background: #000; z-index: 2000; }
 .fullscreen-viewer.open { display: flex; align-items: center; }
 #fs-slides-wrap { width: 100%; height: 100%; overflow: hidden; position: relative; display: flex; align-items: center; }
-#fs-slides { display: flex; height: 100%; will-change: transform; transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
+#fs-slides { display: flex; height: 100%; will-change: transform; transition: transform 0.34s cubic-bezier(0.4,0,0.2,1); }
+#fs-slides.no-anim { transition: none; }
 .fs-slide { flex-shrink: 0; width: 100vw; height: 100%; display: flex; align-items: center; justify-content: center; }
 .fs-slide img { max-width: 100%; max-height: 100%; object-fit: contain; }
 .fullscreen-close { position: absolute; top: 14px; left: 14px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); color: #e8e6e0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; z-index: 10; }
@@ -181,21 +182,60 @@ footer { text-align: center; padding: 2rem; color: #1a1a18; font-size: 9px; lett
   .card-name { font-size: 13px; }
   .card-price { font-size: 16px; }
 
-  /* ── MOBILE LISTING VIEW — like Facebook Marketplace ── */
+  /* ── MOBILE LISTING — Facebook Marketplace style ── */
   .lightbox { align-items: stretch; justify-content: stretch; background: #0e0e0d; }
-  .lb-inner { flex-direction: column; width: 100%; max-width: 100%; height: 100%; border-radius: 0; box-shadow: none; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
-  .lb-topbar { display: flex !important; align-items: center; height: 48px; min-height: 48px; background: #0e0e0d; border-bottom: 1px solid #1a1a18; padding: 0 1rem; flex-shrink: 0; position: sticky; position: -webkit-sticky; top: 0; z-index: 10; }
+  /* lb-inner is a tall column. The lightbox overlay is fixed/full-screen.
+     We DON'T lock body scroll — instead lb-inner itself scrolls. */
+  .lb-inner {
+    flex-direction: column; width: 100%; max-width: 100%;
+    height: 100%; border-radius: 0; box-shadow: none;
+    overflow-y: scroll; -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+  /* Sticky top bar — sticks to top of lb-inner scroll */
+  .lb-topbar {
+    display: flex !important; align-items: center;
+    height: 48px; min-height: 48px;
+    background: #0e0e0d; border-bottom: 1px solid #1a1a18;
+    padding: 0 1rem; flex-shrink: 0;
+    position: sticky; position: -webkit-sticky; top: 0; z-index: 10;
+  }
   .lb-close { display: none !important; }
-  /* Photo — aspect-ratio driven so it's ALWAYS the right size, no squishing ever */
+
+  /* Photo block — square aspect ratio, shows full image with contain */
   .lb-photos { flex-shrink: 0; width: 100%; background: #111; }
-  .lb-carousel-wrap { width: 100%; aspect-ratio: 1/1; height: auto !important; max-height: none !important; overflow: hidden; position: relative; }
-  .lb-slide { padding: 0; width: 100%; aspect-ratio: 1/1; height: auto !important; max-height: none !important; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .lb-slide img { width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
+  .lb-carousel-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    /* override any desktop height */
+    height: auto !important; max-height: none !important; min-height: unset !important;
+    overflow: hidden; position: relative; display: flex; align-items: center;
+  }
+  .lb-slides {
+    display: flex; height: 100%;
+    will-change: transform;
+    transition: transform 0.34s cubic-bezier(0.4,0,0.2,1);
+  }
+  .lb-slides.no-anim { transition: none; }
+  .lb-slide {
+    flex-shrink: 0; width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto !important; max-height: none !important;
+    padding: 0; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    background: #fff;
+  }
+  /* contain = full image always visible, letterboxed if needed */
+  .lb-slide img { width: 100%; height: 100%; object-fit: contain; border-radius: 0; }
   .lb-dots { padding: 10px 0 4px; background: #0e0e0d; }
   .lb-fullphoto-hint { display: block !important; }
-  /* Details below photo — scrolls naturally */
-  .lb-sidebar { width: 100%; border-left: none; border-top: 1px solid #1a1a18; overflow-y: visible; flex-shrink: 0; background: #0e0e0d; }
-  .lb-details { padding: 1.25rem 1.25rem 4rem; }
+
+  /* Details panel — just flows below the photo, no overflow needed */
+  .lb-sidebar {
+    width: 100%; border-left: none; border-top: 1px solid #1a1a18;
+    overflow-y: visible; flex-shrink: 0; background: #0e0e0d;
+  }
+  .lb-details { padding: 1.25rem 1.25rem 5rem; }
   .lb-brand { font-size: 10px; margin-bottom: 4px; }
   .lb-name { font-size: 20px; margin-bottom: 4px; }
   .lb-price { font-size: 30px; margin-bottom: 1.5rem; }
@@ -208,8 +248,8 @@ footer { text-align: center; padding: 2rem; color: #1a1a18; font-size: 9px; lett
   .lb-desc { font-size: 14px; line-height: 1.75; margin-bottom: 2rem; color: #888886; }
   .lb-dm-btn { padding: 18px; font-size: 16px; border-radius: 12px; }
   .lb-footer-note { display: none; }
-  .lb-prev { left: 8px; width: 34px; height: 34px; font-size: 18px; background: rgba(0,0,0,0.45); border-color: transparent; }
-  .lb-next { right: 8px; width: 34px; height: 34px; font-size: 18px; background: rgba(0,0,0,0.45); border-color: transparent; }
+  .lb-prev { left: 8px; width: 36px; height: 36px; font-size: 18px; background: rgba(0,0,0,0.45); border-color: transparent; }
+  .lb-next { right: 8px; width: 36px; height: 36px; font-size: 18px; background: rgba(0,0,0,0.45); border-color: transparent; }
 }
 @media (max-width: 390px) {
   .hero h1 { font-size: 26px; }
@@ -473,8 +513,8 @@ function openLightbox(idx) {
   }
 
   document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  if (isMobile) { document.getElementById('lb-inner').scrollTop = 0; }
+  if (!isMobile) { document.body.style.overflow = 'hidden'; }
+  document.getElementById('lb-inner').scrollTop = 0;
 }
 
 function buildSlides() {
@@ -523,60 +563,84 @@ function changePhoto(dir) {
 
 function selectSize(btn) { document.querySelectorAll('.size-btn').forEach(function(b){ b.classList.remove('selected'); }); btn.classList.add('selected'); }
 
-// Fullscreen viewer — swipeable, synced with lightbox carousel
-var fsIdx = 0, fsAnimating = false;
+// ── Fullscreen viewer — infinite swipe loop, synced to main carousel ──
+var fsPhotoIdx = 0, fsIsAnimating = false;
+
+function buildFsSlides() {
+  var n = currentPhotos.length;
+  var wrap = document.getElementById('fs-slides');
+  var dotsEl = document.getElementById('fs-dots');
+  if (n === 0) { wrap.innerHTML = ''; return; }
+  // Infinite: clone last before, clone first after
+  var html = '<div class="fs-slide"><img src="' + currentPhotos[n-1] + '" alt=""></div>';
+  currentPhotos.forEach(function(url){ html += '<div class="fs-slide"><img src="' + url + '" alt=""></div>'; });
+  html += '<div class="fs-slide"><img src="' + currentPhotos[0] + '" alt=""></div>';
+  wrap.innerHTML = html;
+  wrap.classList.add('no-anim');
+  wrap.style.transform = 'translateX(-' + ((fsPhotoIdx + 1) * 100) + 'vw)';
+  requestAnimationFrame(function(){ wrap.classList.remove('no-anim'); });
+  // dots
+  if (n > 1) {
+    dotsEl.innerHTML = currentPhotos.map(function(_,i){ return '<div class="fs-dot' + (i===fsPhotoIdx?' active':'') + '"></div>'; }).join('');
+    dotsEl.style.display = 'flex';
+  } else { dotsEl.innerHTML = ''; dotsEl.style.display = 'none'; }
+}
+
+function updateFsDots() {
+  document.querySelectorAll('.fs-dot').forEach(function(d,i){ d.classList.toggle('active', i===fsPhotoIdx); });
+}
+
+function changeFs(dir) {
+  if (fsIsAnimating || currentPhotos.length < 2) return;
+  var n = currentPhotos.length;
+  var wrap = document.getElementById('fs-slides');
+  fsIsAnimating = true;
+  var newDomIdx = (fsPhotoIdx + 1) + dir;
+  wrap.style.transform = 'translateX(-' + (newDomIdx * 100) + 'vw)';
+  setTimeout(function(){
+    if (dir === 1 && fsPhotoIdx === n-1) {
+      fsPhotoIdx = 0; wrap.classList.add('no-anim'); wrap.style.transform = 'translateX(-100vw)';
+      requestAnimationFrame(function(){ wrap.classList.remove('no-anim'); });
+    } else if (dir === -1 && fsPhotoIdx === 0) {
+      fsPhotoIdx = n-1; wrap.classList.add('no-anim'); wrap.style.transform = 'translateX(-' + (n * 100) + 'vw)';
+      requestAnimationFrame(function(){ wrap.classList.remove('no-anim'); });
+    } else { fsPhotoIdx += dir; }
+    updateFsDots(); fsIsAnimating = false;
+    // sync main carousel
+    currentPhotoIdx = fsPhotoIdx;
+    var lbSlides = document.getElementById('lb-slides');
+    if (lbSlides) {
+      lbSlides.classList.add('no-anim');
+      lbSlides.style.transform = 'translateX(-' + ((fsPhotoIdx+1)*100) + '%)';
+      requestAnimationFrame(function(){ lbSlides.classList.remove('no-anim'); });
+    }
+    updateDots();
+  }, 340);
+}
 
 function openFullscreen() {
   if (!currentPhotos.length) return;
-  fsIdx = currentPhotoIdx;
-  var wrap = document.getElementById('fs-slides');
-  var dotsEl = document.getElementById('fs-dots');
-  wrap.innerHTML = currentPhotos.map(function(url) {
-    return '<div class="fs-slide"><img src="' + url + '" alt=""></div>';
-  }).join('');
-  wrap.style.transition = 'none';
-  wrap.style.transform = 'translateX(-' + (fsIdx * 100) + 'vw)';
-  requestAnimationFrame(function(){ wrap.style.transition = ''; });
-  if (currentPhotos.length > 1) {
-    dotsEl.innerHTML = currentPhotos.map(function(_, i) {
-      return '<div class="fs-dot' + (i === fsIdx ? ' active' : '') + '"></div>';
-    }).join('');
-    dotsEl.style.display = 'flex';
-  } else { dotsEl.innerHTML = ''; dotsEl.style.display = 'none'; }
+  fsPhotoIdx = currentPhotoIdx;
+  buildFsSlides();
   document.getElementById('fullscreen-viewer').classList.add('open');
 }
-
 function closeFullscreen() { document.getElementById('fullscreen-viewer').classList.remove('open'); }
 
-// Tap dark bg to close
+// Tap black background to close
 document.getElementById('fullscreen-viewer').addEventListener('click', function(e){
   if (e.target === this) closeFullscreen();
 });
 
-// Swipe between photos in fullscreen
+// Swipe in fullscreen
 var fsStartX = 0, fsStartY = 0;
 document.getElementById('fullscreen-viewer').addEventListener('touchstart', function(e){ fsStartX = e.touches[0].clientX; fsStartY = e.touches[0].clientY; }, {passive:true});
 document.getElementById('fullscreen-viewer').addEventListener('touchend', function(e){
   var dx = fsStartX - e.changedTouches[0].clientX;
   var dy = Math.abs(fsStartY - e.changedTouches[0].clientY);
-  if (Math.abs(dx) > 40 && Math.abs(dx) > dy && currentPhotos.length > 1) {
-    if (fsAnimating) return;
-    var next = fsIdx + (dx > 0 ? 1 : -1);
-    if (next < 0 || next >= currentPhotos.length) return;
-    fsAnimating = true; fsIdx = next;
-    var wrap = document.getElementById('fs-slides');
-    wrap.style.transform = 'translateX(-' + (fsIdx * 100) + 'vw)';
-    document.querySelectorAll('.fs-dot').forEach(function(d,i){ d.classList.toggle('active', i===fsIdx); });
-    setTimeout(function(){ fsAnimating = false; }, 320);
-    // sync lightbox
-    currentPhotoIdx = fsIdx;
-    var lbSlides = document.getElementById('lb-slides');
-    if (lbSlides) { lbSlides.classList.add('no-anim'); lbSlides.style.transform = 'translateX(-' + ((fsIdx+1)*100) + '%)'; requestAnimationFrame(function(){ lbSlides.classList.remove('no-anim'); }); }
-    updateDots();
-  }
+  if (Math.abs(dx) > 40 && Math.abs(dx) > dy) changeFs(dx > 0 ? 1 : -1);
 }, {passive:true});
 
-function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow=''; isAnimating=false; }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow=''; isAnimating=false; document.getElementById('lb-inner').scrollTop=0; }
 
 // Touch swipe — only on photo area
 var touchStartX=0, touchStartY=0, swipeOnPhoto=false;

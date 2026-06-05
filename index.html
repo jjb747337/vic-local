@@ -130,8 +130,10 @@ nav { background: rgba(14,14,13,0.97); backdrop-filter: blur(20px); -webkit-back
 .lb-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; }
 .lb-tag { font-size: 10px; color: #555553; background: #141413; border: 1px solid #1a1a18; padding: 3px 10px; border-radius: 5px; }
 .lb-desc { font-size: 13px; color: #888886; line-height: 1.7; margin-bottom: 1.75rem; }
-.lb-dm-btn { display: flex; align-items: center; justify-content: center; width: 100%; background: #e8e6e0; color: #0e0e0d; border: none; border-radius: 10px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.18s; margin-bottom: 8px; font-family: inherit; }
+.lb-dm-btn { display: flex; align-items: center; justify-content: center; width: 100%; background: #e8e6e0; color: #0e0e0d; border: none; border-radius: 10px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; margin-bottom: 8px; font-family: inherit; opacity: 0; transform: translateY(16px) scale(0.97); transition: opacity 0.32s cubic-bezier(0.34,1.56,0.64,1), transform 0.32s cubic-bezier(0.34,1.56,0.64,1); }
+.lb-dm-btn.animate-in { opacity: 1; transform: translateY(0) scale(1); }
 .lb-dm-btn:hover { opacity: 0.88; }
+.lb-dm-btn:active { transform: scale(0.97); }
 .lb-sold-msg { text-align: center; font-size: 12px; color: #2a2a28; padding: 16px; border: 1px solid #1a1a18; border-radius: 10px; }
 .lb-footer-note { padding: 1rem 1.5rem; border-top: 1px solid #141413; font-size: 9px; color: #1a1a18; text-align: center; letter-spacing: 0.08em; text-transform: uppercase; }
 
@@ -154,7 +156,7 @@ nav { background: rgba(14,14,13,0.97); backdrop-filter: blur(20px); -webkit-back
 /* CONTACT SHEET */
 .contact-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: flex-end; justify-content: center; }
 .contact-overlay.open { display: flex; }
-.contact-sheet { background: #141413; border: 1px solid #1a1a18; border-radius: 20px 20px 0 0; padding: 1.5rem 1.5rem 2rem; width: 100%; max-width: 480px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); touch-action: none; }
+.contact-sheet { background: #141413; border: 1px solid #1a1a18; border-radius: 20px 20px 0 0; padding: 1.5rem 1.5rem 2.5rem; width: 100%; max-width: 480px; transform: translateY(100%); transition: transform 0.38s cubic-bezier(0.32,0.72,0,1); touch-action: pan-y; }
 .contact-overlay.open .contact-sheet { transform: translateY(0); }
 .contact-handle { width: 36px; height: 4px; background: #2a2a28; border-radius: 2px; margin: 0 auto 1.25rem; cursor: grab; }
 .contact-title { font-size: 15px; font-weight: 700; color: #e8e6e0; text-align: center; margin-bottom: 3px; }
@@ -198,19 +200,17 @@ footer { text-align: center; padding: 2rem; color: #1a1a18; font-size: 9px; lett
   .lb-slides.no-anim { transition: none; }
   .lb-slide { flex-shrink: 0; width: 100%; aspect-ratio: 3/4; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 0; background: #111; cursor: pointer; }
   .lb-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center top; border-radius: 0; }
-  /* Dots — overlaid on photo via negative margin (outside overflow:hidden carousel-wrap) */
-  .lb-dots { display: flex; gap: 10px; justify-content: center; background: transparent; padding: 0;
-    margin-top: -44px; /* pull up over the image */
-    position: relative; z-index: 5; pointer-events: none; }
-  .lb-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); transition: background 0.22s, transform 0.22s; cursor: pointer; flex-shrink: 0; pointer-events: all; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+  /* Dots — proper circles */
+  .lb-dots { display: flex; gap: 10px; justify-content: center; background: transparent; padding: 0; position: absolute; bottom: 38px; left: 0; right: 0; z-index: 5; pointer-events: none; }
+  .lb-dot { width: 8px; height: 8px; border-radius: 50% !important; background: rgba(255,255,255,0.5); transition: background 0.22s, transform 0.22s; cursor: pointer; flex-shrink: 0; pointer-events: all; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
   .lb-dot.active { background: #fff; transform: scale(1.2); }
-  /* Hint text — sits just below dots, still visually over image */
-  .lb-fullphoto-hint { display: block !important; position: relative; z-index: 5; background: transparent; padding: 0; margin-top: 6px; text-align: center;
-    margin-bottom: -28px; /* pull it up so it overlaps the bottom of the image */
-  }
+  .lb-dot { width: 7px; height: 7px; border-radius: 50%; background: #333331; transition: background 0.22s, transform 0.22s; cursor: pointer; flex-shrink: 0; }
+  .lb-dot.active { background: #d8d6d0; transform: scale(1.2); }
   /* Arrows */
   .lb-prev { display: flex !important; left: 8px; width: 36px; height: 36px; font-size: 20px; background: rgba(0,0,0,0.4); border-color: transparent; }
   .lb-next { display: flex !important; right: 8px; width: 36px; height: 36px; font-size: 20px; background: rgba(0,0,0,0.4); border-color: transparent; }
+  .lb-fullphoto-hint { display: none; position: absolute; bottom: 14px; left: 0; right: 0; text-align: center; z-index: 6; background: transparent; padding: 0; }
+  .lb-fullphoto-hint.visible { display: block; }
   .lb-sidebar { width: 100%; border-left: none; border-top: 1px solid #1a1a18; background: #0e0e0d; overflow-y: visible; flex-shrink: 0; }
   .lb-details { padding: 1.25rem 1.25rem 5rem; }
   .lb-brand { font-size: 10px; margin-bottom: 4px; }
@@ -301,8 +301,8 @@ footer { text-align: center; padding: 2rem; color: #1a1a18; font-size: 9px; lett
       </div>
       <div class="lb-dots" id="lb-dots"></div>
       <!-- View full photo hint (mobile only) -->
-      <div class="lb-fullphoto-hint" id="lb-fullphoto-hint" style="display:none;text-align:center;padding:6px 0 2px;">
-        <button onclick="openFullscreen()" style="background:none;border:none;color:#444442;font-size:11px;cursor:pointer;font-family:inherit;letter-spacing:0.04em;">Tap photo to view full image</button>
+      <div class="lb-fullphoto-hint" id="lb-fullphoto-hint">
+        <button onclick="openFullscreen()" style="background:none;border:none;color:rgba(255,255,255,0.8);font-size:11px;cursor:pointer;font-family:inherit;letter-spacing:0.04em;text-shadow:0 1px 4px rgba(0,0,0,0.7);">Tap photo to view full image</button>
       </div>
     </div>
     <div class="lb-sidebar">
@@ -327,7 +327,6 @@ footer { text-align: center; padding: 2rem; color: #1a1a18; font-size: 9px; lett
     <div class="fs-slides" id="fs-slides"></div>
   </div>
   <div class="fullscreen-close" onclick="closeFullscreen()">✕</div>
-  <div id="fs-counter" style="position:absolute;top:18px;left:0;right:0;text-align:center;color:#fff;font-size:14px;font-weight:600;z-index:10;pointer-events:none;letter-spacing:0.02em;text-shadow:0 1px 4px rgba(0,0,0,0.5);display:none;"></div>
   <div class="fs-prev" id="fs-prev" onclick="changeFs(-1)" style="display:none">‹</div>
   <div class="fs-next" id="fs-next" onclick="changeFs(1)" style="display:none">›</div>
   <div class="fs-dots" id="fs-dots"></div>
@@ -470,7 +469,8 @@ function openLightbox(idx) {
     sizesEl.innerHTML = '<div class="lb-size-label">Size</div><div class="lb-sizes">' + sizes.map(function(s){ var so = soldSizes.indexOf(s)!==-1; return '<button class="size-btn'+(so?' sold-out':'')+'"'+(so?' disabled':'')+' onclick="selectSize(this)">'+s+(so?' — Sold':'')+'</button>'; }).join('') + '</div>';
     if (sizes.length===1 && !soldSizes.length) { var b=sizesEl.querySelector('.size-btn'); if(b) b.classList.add('selected'); }
   } else { sizesEl.innerHTML = ''; }
-  document.getElementById('lb-action').innerHTML = item.sold ? '<div class="lb-sold-msg">This item has been sold</div>' : '<button class="lb-dm-btn" onclick="openContact()">DM to Buy</button>';
+  document.getElementById('lb-action').innerHTML = item.sold ? '<div class="lb-sold-msg">This item has been sold</div>' : '<button class="lb-dm-btn" id="lb-dm-btn-el" onclick="openContact()">DM to Buy</button>';
+  if (!item.sold) { setTimeout(function(){ var b=document.getElementById('lb-dm-btn-el'); if(b) b.classList.add('animate-in'); }, 80); }
 
   buildSlides();
   var isMobile = window.innerWidth <= 700;
@@ -478,7 +478,10 @@ function openLightbox(idx) {
   document.getElementById('lb-close-btn').style.display = isMobile ? 'none' : 'flex';
   document.getElementById('lb-topbar-title').textContent = item.name || '';
   var hint = document.getElementById('lb-fullphoto-hint');
-  if (hint) hint.style.display = isMobile && currentPhotos.length > 0 ? 'block' : 'none';
+  if (hint) {
+    if (isMobile && currentPhotos.length > 0) hint.classList.add('visible');
+    else hint.classList.remove('visible');
+  }
 
   // On mobile, make slides clickable to open fullscreen
   if (isMobile) {
@@ -555,11 +558,8 @@ function buildFsSlides() {
     slides.classList.add('no-anim'); slides.style.transform = 'translateX(0)';
     slides.innerHTML = '<div class="fs-slide"><img src="' + currentPhotos[0] + '" alt=""></div>';
     prev.style.display='none'; next.style.display='none'; dotsEl.innerHTML='';
-    var ctr=document.getElementById('fs-counter'); if(ctr) ctr.style.display='none';
     setTimeout(function(){ slides.classList.remove('no-anim'); }, 10); return;
   }
-  var ctr=document.getElementById('fs-counter');
-  if(ctr){ ctr.textContent=(fsIdx+1)+' of '+n; ctr.style.display='block'; }
   var html = '<div class="fs-slide"><img src="' + currentPhotos[n-1] + '" alt=""></div>';
   currentPhotos.forEach(function(url){ html += '<div class="fs-slide"><img src="' + url + '" alt=""></div>'; });
   html += '<div class="fs-slide"><img src="' + currentPhotos[0] + '" alt=""></div>';
@@ -582,7 +582,6 @@ function changeFs(dir) {
     else if (dir===-1 && fsIdx===0) { fsIdx=n-1; slides.classList.add('no-anim'); slides.style.transform='translateX(-'+(n*100)+'vw)'; requestAnimationFrame(function(){ slides.classList.remove('no-anim'); }); }
     else { fsIdx+=dir; }
     updateFsDots(); fsAnimating=false;
-    var ctr=document.getElementById('fs-counter'); if(ctr && currentPhotos.length>1) ctr.textContent=(fsIdx+1)+' of '+currentPhotos.length;
     currentPhotoIdx=fsIdx;
     var lbSlides=document.getElementById('lb-slides');
     if (lbSlides && currentPhotos.length>1) { lbSlides.classList.add('no-anim'); lbSlides.style.transform='translateX(-'+((fsIdx+1)*100)+'%)'; requestAnimationFrame(function(){ lbSlides.classList.remove('no-anim'); }); }
@@ -629,17 +628,40 @@ function openContact() { document.getElementById('contact-overlay').classList.ad
 function closeContact() { document.getElementById('contact-overlay').classList.remove('open'); }
 
 // Draggable contact sheet
-var sheetDragStart=null;
-var sheetHandle=document.getElementById('contact-handle'), sheetEl=document.getElementById('contact-sheet');
-function initDrag(y){ sheetDragStart=y; sheetEl.style.transition='none'; }
-function moveDrag(y){ if(sheetDragStart===null)return; var d=Math.max(0,y-sheetDragStart); sheetEl.style.transform='translateY('+d+'px)'; }
-function endDrag(y){ if(sheetDragStart===null)return; sheetEl.style.transition=''; var d=y-sheetDragStart; if(d>80)closeContact(); else sheetEl.style.transform='translateY(0)'; sheetDragStart=null; }
-sheetHandle.addEventListener('mousedown',function(e){initDrag(e.clientY);e.preventDefault();});
-document.addEventListener('mousemove',function(e){moveDrag(e.clientY);});
-document.addEventListener('mouseup',function(e){endDrag(e.clientY);});
-sheetHandle.addEventListener('touchstart',function(e){initDrag(e.touches[0].clientY);},{passive:true});
-sheetEl.addEventListener('touchmove',function(e){moveDrag(e.touches[0].clientY);},{passive:true});
-sheetEl.addEventListener('touchend',function(e){endDrag(e.changedTouches[0].clientY);},{passive:true});
+// Contact sheet — drag anywhere on sheet to dismiss
+var sheetDragStart=null, sheetDragging=false;
+var sheetEl=document.getElementById('contact-sheet');
+
+function initDrag(y){ sheetDragStart=y; sheetDragging=false; sheetEl.style.transition='none'; }
+function moveDrag(y){
+  if(sheetDragStart===null) return;
+  var d=y-sheetDragStart;
+  if(d<0) d=0; // don't drag up
+  sheetDragging = d>4;
+  sheetEl.style.transform='translateY('+d+'px)';
+}
+function endDrag(y){
+  if(sheetDragStart===null) return;
+  sheetEl.style.transition='';
+  var d=y-sheetDragStart;
+  if(d>90) closeContact();
+  else sheetEl.style.transform='translateY(0)';
+  sheetDragStart=null; sheetDragging=false;
+}
+
+// Touch on the whole sheet
+sheetEl.addEventListener('touchstart',function(e){ initDrag(e.touches[0].clientY); },{passive:true});
+sheetEl.addEventListener('touchmove',function(e){
+  if(sheetDragStart===null) return;
+  var d=e.touches[0].clientY-sheetDragStart;
+  if(d>0) { moveDrag(e.touches[0].clientY); }
+},{passive:true});
+sheetEl.addEventListener('touchend',function(e){ endDrag(e.changedTouches[0].clientY); },{passive:true});
+
+// Mouse (desktop)
+document.getElementById('contact-handle').addEventListener('mousedown',function(e){initDrag(e.clientY);e.preventDefault();});
+document.addEventListener('mousemove',function(e){ if(sheetDragStart!==null) moveDrag(e.clientY); });
+document.addEventListener('mouseup',function(e){ if(sheetDragStart!==null) endDrag(e.clientY); });
 
 loadItems();
 </script>

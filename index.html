@@ -267,7 +267,7 @@ footer { text-align: center; padding: 2rem; color: #1a1a18; font-size: 9px; lett
 <div class="hero">
   <div class="hero-tag">Victoria, BC · Local Pickup Only</div>
   <h1>1:1 Designer<br><em>& Streetwear.</em></h1>
-  <p>Designer pieces and premium reps. Cash or e-transfer.</p>
+  <p>Designer pieces and premium clothing. Cash or e-transfer.</p>
   <div class="hero-btns">
     <button class="btn-primary" onclick="openContact()">DM to Buy</button>
     <button class="btn-secondary" onclick="document.querySelector('.filter-section').scrollIntoView({behavior:'smooth'})">Latest Releases</button>
@@ -640,28 +640,29 @@ document.addEventListener('keydown',function(e){
 
 // Contact sheet
 function openContact(){
-  var overlay = document.getElementById('contact-overlay');
-  var sheet = document.getElementById('contact-sheet');
-  // Step 1: make overlay display:flex but sheet still at translateY(100%)
-  overlay.style.display = 'flex';
-  sheet.style.transition = 'none';
-  sheet.style.transform = 'translateY(100%)';
-  // Step 2: force reflow so browser registers the start position
+  var overlay=document.getElementById('contact-overlay');
+  var sheet=document.getElementById('contact-sheet');
+  overlay.style.display='flex';
+  sheet.style.transition='none';
+  sheet.style.transform='translateY(100%)';
   sheet.getBoundingClientRect();
-  // Step 3: now animate
-  sheet.style.transition = '';
-  requestAnimationFrame(function(){
-    overlay.classList.add('open');
-  });
+  sheet.style.transition='transform 0.42s cubic-bezier(0.22,1,0.36,1)';
+  sheet.style.transform='translateY(0)';
+  overlay.style.background='rgba(0,0,0,0)';
+  setTimeout(function(){ overlay.style.transition='background 0.3s'; overlay.style.background='rgba(0,0,0,0.85)'; },0);
 }
 function closeContact(){
-  var overlay = document.getElementById('contact-overlay');
-  var sheet = document.getElementById('contact-sheet');
-  overlay.classList.remove('open');
+  var overlay=document.getElementById('contact-overlay');
+  var sheet=document.getElementById('contact-sheet');
+  sheet.style.transition='transform 0.38s cubic-bezier(0.22,1,0.36,1)';
+  sheet.style.transform='translateY(100%)';
+  overlay.style.transition='background 0.3s';
+  overlay.style.background='rgba(0,0,0,0)';
   setTimeout(function(){
-    overlay.style.display = '';
-    sheet.style.transform = '';
-  }, 420);
+    overlay.style.display='none';
+    overlay.style.transition=''; overlay.style.background='';
+    sheet.style.transition=''; sheet.style.transform='';
+  },400);
 }
 
 var sheetDragStart=null,sheetEl=document.getElementById('contact-sheet');
